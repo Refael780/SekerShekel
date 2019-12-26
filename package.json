@@ -1,0 +1,33 @@
+{
+  "name": "sekershekel",
+  "version": "1.0.0",
+  "description": "this is the fs api and client for sekerShekel's porject",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Refael780/SekerShekel.git"
+  },
+  "author": "Refael Huri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Refael780/SekerShekel/issues"
+  },
+  "homepage": "https://github.com/Refael780/SekerShekel#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.2.4",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.0",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.3",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.2",
+    "nodemon": "^2.0.2"
+  }
+}
