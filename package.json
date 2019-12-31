@@ -4,8 +4,8 @@
   "description": "this is the fs api and client for sekerShekel's porject",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "server": "nodemon server",
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
