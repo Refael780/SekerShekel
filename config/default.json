@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://admin-refael:1234@logintest-gmaih.mongodb.net/SekerShekel?retryWrites=true&w=majority",
+  "jwtSecret": "secret",
+  "githubClientId": "",
+  "githubSecret": ""
+}

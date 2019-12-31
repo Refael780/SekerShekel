@@ -4,7 +4,7 @@ const User = require('../models/Users');
 const gravatr = require('gravatar');
 const bycrptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 
 const MIN_CHAR = 6;
 const BAD_RESPONSE_STAUTS = 400;
