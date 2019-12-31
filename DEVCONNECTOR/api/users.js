@@ -4,6 +4,7 @@ const User = require('../models/Users');
 const gravatr = require('gravatar');
 const bycrptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 const MIN_CHAR = 6;
@@ -62,6 +63,9 @@ router.post(
       const Payload = {
         id: user.id
       };
+      jwt.sign(Payload, config.get('jwtSecret'),{expiresIn:360},((err,token=>{
+          
+      }));
 
       res.send('Users route');
     } catch (error) {
