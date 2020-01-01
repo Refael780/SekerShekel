@@ -49,27 +49,37 @@ router.post(
         r: 'pg',
         d: 'mm'
       });
-
+      //Create User
       user = new User({
         name,
         email,
         password,
         avatar
       });
+
+      ///Crypt password to hash with 10 salt
       user.password = await bycrptjs.hash(password, 10);
 
       await user.save();
 
       const Payload = {
-        id: user.id
+        user: {
+          id: user.id
+        }
       };
-      jwt.sign(Payload, config.get('jwtSecret'),{expiresIn:360},((err,token=>{
-          
-      }));
-
-      res.send('Users route');
+      jwt.sign(
+        Payload,
+        config.get('jwtSecret'),
+        { expiresIn: 360000 },
+        (err, token) => {
+          if (err) {
+            throw err;
+          }
+          res.json({ token });
+        }
+      );
     } catch (error) {
-      res.send(error.message);
+      res.json({ msg: error.message });
     }
   }
 );
