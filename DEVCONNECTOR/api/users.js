@@ -5,6 +5,17 @@ const gravatr = require('gravatar');
 const bycrptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const nodemailer = require('nodemailer');
+const sendGridTransport = require('nodemailer-sendgrid-transport');
+const crypto = require('crypto');
+
+const transporter = nodemailer.createTransport(
+  sendGridTransport({
+    auth: {
+      api_key: config.get('apiKey')
+    }
+  })
+);
 const { check, validationResult } = require('express-validator');
 
 const MIN_CHAR = 6;
@@ -20,10 +31,13 @@ router.post(
       .not()
       .isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
-    check(
-      'password',
-      'Please enter a password with 6 or more characters'
-    ).isLength({ min: 6 })
+    check('password', 'Password is Requird'),
+    check('adress', 'Adresses is required')
+      .not()
+      .isEmpty(),
+    check('phonNumber', 'Phone Number is required')
+      .not()
+      .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -34,7 +48,7 @@ router.post(
     }
 
     //// Get data on the user from the request
-    const { name, email, password } = req.body;
+    const { name, email, password, adress, phonNumber } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -53,6 +67,8 @@ router.post(
       user = new User({
         name,
         email,
+        adress,
+        phonNumber,
         password,
         avatar
       });
@@ -60,28 +76,73 @@ router.post(
       ///Crypt password to hash with 10 salt
       user.password = await bycrptjs.hash(password, 10);
 
-      await user.save();
+      crypto.randomBytes(32, async (err, buffer) => {
+        if (err) {
+          console.log(err);
+          res.json({ msg: error.message });
+        }
+        const token = buffer.toString('hex');
+        user.token = token;
+        user.expireToken = Date() + 3600000;
+        await user.save();
 
-      const Payload = {
-        user: {
-          id: user.id
-        }
-      };
-      jwt.sign(
-        Payload,
-        config.get('jwtSecret'),
-        { expiresIn: 360000 },
-        (err, token) => {
-          if (err) {
-            throw err;
-          }
-          res.json({ token });
-        }
-      );
+        await transporter.sendMail(
+          {
+            to: user.email,
+            from: 'refael777@sekerShekel.com',
+            subject: 'Password Confirm',
+            html: `<p> to complete regerstrion click on the link </p>
+            <p>Click Here<a href="http://localhost:5000/auth/${token}">link</a></p>
+            <p><a href="http://localhost:5000/auth/${token}">http://localhost:5000/auth/${token}</a></p>
+            `
+          },
+          err => console.log(err)
+        );
+      });
+      res.json({ msg: 'sucss' });
     } catch (error) {
       res.json({ msg: error.message });
     }
   }
 );
+router.post('/:token', async (req, res) => {
+  try {
+    const token = req.params.token;
+    let user = await User.findOne({ token });
+    if (!user) {
+      res.json({ msg: 'user not found' });
+    }
+    if (user.expireToken > Date.now()) {
+      res.json({ msg: 'Time of token is expire please register agian' });
+      ///Delete user
+    }
+
+    const { password } = req.body;
+    user.password = await bycrptjs.hash(password, 10);
+    user.token = undefined;
+    user.expireToken = undefined;
+    await user.save();
+
+    const Payload = {
+      user: {
+        id: user.id
+      }
+    };
+    jwt.sign(
+      Payload,
+      config.get('jwtSecret'),
+      { expiresIn: 360000 },
+      (err, token) => {
+        if (err) {
+          throw err;
+        }
+        res.json({ token });
+      }
+    );
+  } catch (error) {
+    console.log(err);
+    res.status(400).json({ msg: err });
+  }
+});
 
 module.exports = router;
