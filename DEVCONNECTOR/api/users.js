@@ -8,6 +8,7 @@ const config = require('config');
 const nodemailer = require('nodemailer');
 const sendGridTransport = require('nodemailer-sendgrid-transport');
 const crypto = require('crypto');
+const { check, validationResult } = require('express-validator');
 
 const transporter = nodemailer.createTransport(
   sendGridTransport({
@@ -16,12 +17,14 @@ const transporter = nodemailer.createTransport(
     }
   })
 );
-const { check, validationResult } = require('express-validator');
 
 const MIN_CHAR = 6;
 const BAD_RESPONSE_STAUTS = 400;
+
 // @route   Post api/sekers
 // @desc    Register User route
+///         succses: sending mail to user  with link to passwod page
+//          faild: return custom error msg
 // @access  Public
 
 router.post(
@@ -76,6 +79,7 @@ router.post(
       ///Crypt password to hash with 10 salt
       user.password = await bycrptjs.hash(password, 10);
 
+      ///Create token for the user that apper on the Mail
       crypto.randomBytes(32, async (err, buffer) => {
         if (err) {
           console.log(err);
@@ -92,8 +96,8 @@ router.post(
             from: 'refael777@sekerShekel.com',
             subject: 'Password Confirm',
             html: `<p> to complete regerstrion click on the link </p>
-            <p>Click Here<a href="http://localhost:5000/auth/${token}">link</a></p>
-            <p><a href="http://localhost:5000/auth/${token}">http://localhost:5000/auth/${token}</a></p>
+            <p>Click Here<a href="http://localhost:5000/api/users/${token}">link</a></p>
+            <p><a href="http://localhost:5000/api/users/${token}">http://localhost:5000/api/users/${token}</a></p>
             `
           },
           err => console.log(err)
@@ -105,6 +109,16 @@ router.post(
     }
   }
 );
+
+// @route   Get api/users/password page
+// @desc    Complete registeration procces for the user User route
+// @access  Public
+
+// @route   Post api/users/spesific user
+// @desc    Complete registeration procces for the user User route
+///         succses: return Jwt token for this spesific user
+//          faild: return custom error msg
+// @access  Public
 router.post('/:token', async (req, res) => {
   try {
     const token = req.params.token;
@@ -113,6 +127,7 @@ router.post('/:token', async (req, res) => {
       res.json({ msg: 'user not found' });
     }
     if (user.expireToken > Date.now()) {
+      User.deleteOne({ user });
       res.json({ msg: 'Time of token is expire please register agian' });
       ///Delete user
     }

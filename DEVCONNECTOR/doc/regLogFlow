@@ -1,0 +1,15 @@
+to register 
+
+(post)user->send mail with token(NO JWT)->enter A password link now directly to the POST passwordw
+in the futhure  get to page with form(password,confirm Password) and the post to user/:token(NO JWT)
+than the user finally get JWT TOKEN 
+
+POST /user=>MAIl=>/user/:token(with password)
+
+LOGIN
+GET auth/ => middlware auth
+
+*{(MIDDLWARE auth: decoded the JWT token that found in the header of the user req=> decodedd
+  the token and set the data(id's user) the req (req.user = decodedToken.user))}
+
+in the Login just found the user in the db by the user id 

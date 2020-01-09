@@ -3,6 +3,7 @@ const config = require('config');
 
 module.exports = (req, res, next) => {
   const reciveToken = req.header('x-auth-token');
+  console.log(reciveToken);
 
   if (!reciveToken) {
     res.status(401).json({ msg: 'No Token, Authrezation denied' });
