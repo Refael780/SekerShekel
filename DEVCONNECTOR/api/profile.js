@@ -13,7 +13,7 @@ const { check, validationResult } = require('express-validator');
 router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findById({
-      user: req.body.id
+      user: req.user.id
     }).populate('user', ['name', 'avatar']);
     if (!profile) {
       return res.status(400).json({ msg: 'Profile dosent exist' });
@@ -54,6 +54,7 @@ router.post(
       education,
       educationalInstitution,
       profession
+      //Seker that he do
     } = req.body;
 
     const ProfileFields = {};
@@ -95,6 +96,7 @@ router.post(
           { $set: ProfileFields },
           { new: true }
         );
+
         return res.json(profile);
       }
       profile = new Profile(ProfileFields);
@@ -106,5 +108,47 @@ router.post(
     }
   }
 );
+
+// @route   GET api/profile/
+// @desc    Get all profiles
+//          Succses:return all profile(json)
+//          faild:return error msg(json)
+// @access  Public
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+    console.log(profiles);
+
+    return res.json(profiles);
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json('Server Error');
+  }
+});
+
+// @route   GET api/profile/user/:userId
+// @desc    Get all profiles
+//          Succses:return all profile(json)
+//          faild:return error msg(json)
+// @access  Public
+router.get('/users/:userId', async (req, res) => {
+  try {
+    let profile = await Profile.findOne({
+      user: req.params.user_id
+    }).populate('user', ['name', 'avatar']);
+
+    if (!profile) {
+      return res.status(400).json({ msg: 'Profile not found' });
+    }
+
+    return res.json(profile);
+  } catch (error) {
+    if (error.kind == 'ObjectID') {
+      res.status(400).json({ msg: 'Profile not found' });
+    }
+    res.status(400).json({ msg: error.message });
+  }
+});
 
 module.exports = router;
