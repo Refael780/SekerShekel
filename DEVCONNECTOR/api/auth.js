@@ -7,10 +7,11 @@ const { check, validationResult } = require('express-validator');
 
 const BAD_RESPONSE_STAUTS = 400;
 
-// @route   GET api/sekers
-// @desc    Test route
+// @route   GET api/auth
+// @desc    get user routh by middlware auth that translate token to user
+//          succses: return user(json)
+//          faild: return custom error msg
 // @access  Public
-
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
@@ -22,9 +23,10 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route   Post api/auth
-// @desc    Register User route
+// @desc    Login User with auth  route
+//          succses: return token(json)
+//          faild: return custom error msg
 // @access  Public
-
 router.post(
   '/',
   ///middlware chack from express-validator

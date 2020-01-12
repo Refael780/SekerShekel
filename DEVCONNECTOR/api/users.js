@@ -113,6 +113,9 @@ router.post(
 // @route   Get api/users/password page
 // @desc    Complete registeration procces for the user User route
 // @access  Public
+/////////////////
+///TO-DO
+////////////////
 
 // @route   Post api/users/spesific user
 // @desc    Complete registeration procces for the user User route

@@ -16,7 +16,6 @@ module.exports = (req, res, next) => {
     console.log('suc verify token');
 
     req.user = decodedToken.user;
-    console.log(decodedToken);
 
     next();
   } catch (error) {
