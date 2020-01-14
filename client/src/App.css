@@ -40,7 +40,7 @@ img {
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
-  margin-top: 5rem;
+  margin-top: 2rem;
   margin-bottom: 3rem;
 }
 
@@ -236,12 +236,12 @@ img {
 
 /* Forms */
 .form .form-group {
-  margin: 1.2rem 0;
+  margin: 0.8rem 0;
 }
 
 .form .form-text {
   display: block;
-  margin-top: 0.3rem;
+  margin-top: 0.1rem;
   color: #888;
 }
 
@@ -253,8 +253,8 @@ img {
 .form textarea {
   display: block;
   width: 100%;
-  padding: 0.4rem;
-  font-size: 1.2rem;
+  padding: 0.1rem;
+  font-size: 0.9rem;
   border: 1px solid #ccc;
 }
 

@@ -1,6 +1,21 @@
 .borderSwitchPicture {
-  border: 2px solid black;
+  box-shadow: 1.5px 2px 8px 4px rgba(0, 0, 0, 0.26);
   color: #0077b5;
+  font-family: 'Alef', sans-serif;
 
   text-align: center;
+}
+.borderSwitchPicture .info {
+  font-size: 1.5rem;
+}
+.borderSwitchPicture.Logo {
+  margin-top: 0;
+  padding: 1px 1px 1px 1px;
+  width: 100%;
+  height: 15rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  background-image: url(../../img/Survey.jpg);
 }
