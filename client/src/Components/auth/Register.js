@@ -67,7 +67,7 @@ const Register = props => {
             </small>
           </Form>
           <p className='my-1'>
-            כבר רשום? <a href='login.html'>התחבר</a>
+            כבר רשום ? <a href='login.html'>התחבר</a>
           </p>
         </section>
       </Container>
