@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { setModal, remModel } from '../../action/modal';
-
+import '../../App.css';
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const CustomModal = props => {
-  const { buttonLabel, className } = props;
+  const { className } = props;
 
   const [modal, setModal] = useState(true);
 
@@ -14,20 +14,19 @@ const CustomModal = props => {
   return (
     props.modal !== null &&
     props.modal.length > 0 && (
-      <div dir='rtl'>
-        {console.log(props.modal)}
-        {console.log(props.modal.length)}
-
-        <Modal isOpen={modal} toggle={toggle} className={className}>
-          <ModalHeader toggle={toggle}>השלמת תהליך ההרשמה</ModalHeader>
-          <ModalBody>{props.modal[0].msg}</ModalBody>
+      <div className='text-center' dir='rtl'>
+        <Modal className='text-center' isOpen={modal} toggle={toggle}>
+          <ModalHeader className='text-center' toggle={toggle}>
+            השלמת תהליך ההרשמה
+          </ModalHeader>
+          <ModalBody className='text-center'>{props.modal[0].msg}</ModalBody>
           <ModalFooter>
             <Button
               color='primary'
               onClick={() => props.remModel(props.modal[0].id)}
             >
               אישור
-            </Button>{' '}
+            </Button>
           </ModalFooter>
         </Modal>
       </div>

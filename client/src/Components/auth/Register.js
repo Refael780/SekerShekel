@@ -1,18 +1,38 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { FormGroup, Container, Form } from 'reactstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../action/alert';
 import { setModal } from '../../action/modal';
-
+import { regM } from '../../action/auth';
 import '../../App.css';
 
 const Register = props => {
-  const RegisterHandler = e => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    adress: '',
+    phonNumber: ''
+  });
+
+  const { name, email, adress, phonNumber } = formData;
+
+  const onChange = e =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const RegisterHandler = async e => {
     e.preventDefault();
     ///if some of the input is wrong we alert to user
     ///TO-DO
 
     props.setAlert('confirm', 'danger'); ///To do the spesidic alert
+
+    try {
+      const tempPass = '1234';
+      console.log('before regM');
+      props.regM({ name, email, tempPass, adress, phonNumber });
+    } catch (error) {
+      console.log(error);
+    }
 
     ///if user already exist
     ///TO-DO
@@ -29,21 +49,33 @@ const Register = props => {
         <section className='container'>
           <h1 className='large text-primary'>רישום</h1>
           <p className='lead'>
-            <i className='fas fa-user'></i> צור את השתמש שלך
+            <i className='fas fa-user'></i> צור את המשתמש שלך
           </p>
           <Form dir='rtl' action='create-profile.html'>
             <FormGroup>
-              <input type='text' placeholder='שם' name='name' required />
+              <input
+                type='text'
+                placeholder='שם'
+                name='name'
+                required
+                onChange={e => onChange(e)}
+              />
             </FormGroup>
             <FormGroup>
-              <input type='מייל' placeholder='כתובת מייל @' name='email' />
+              <input
+                type='מייל'
+                placeholder='כתובת מייל @'
+                name='email'
+                onChange={e => onChange(e)}
+              />
             </FormGroup>
             <FormGroup>
               <input
                 type='text'
                 placeholder='טלפון'
-                name='phone'
+                name='phonNumber'
                 minLength='6'
+                onChange={e => onChange(e)}
               />
             </FormGroup>
             <FormGroup>
@@ -52,11 +84,12 @@ const Register = props => {
                 placeholder='כתובת'
                 name='adress'
                 minLength='6'
+                onChange={e => onChange(e)}
               />
             </FormGroup>
             <input
               onClick={e => RegisterHandler(e)}
-              type='button'
+              type='submit'
               className='btn btn-primary'
               value='הרשם'
             />
@@ -75,4 +108,4 @@ const Register = props => {
   );
 };
 
-export default connect(null, { setAlert, setModal })(Register);
+export default connect(null, { regM, setAlert, setModal })(Register);

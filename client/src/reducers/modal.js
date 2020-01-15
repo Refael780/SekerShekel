@@ -8,7 +8,7 @@ export default (state = intialState, action) => {
     case SET_MODAL:
       return [...state, payload];
     case REMOVE_MODAL:
-      return state.filter(modal => modal.id !== payload.id);
+      return state.filter(modal => modal.id !== payload);
     default:
       return state;
   }

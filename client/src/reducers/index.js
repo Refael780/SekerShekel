@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
 import alert from './alert';
 import modal from './modal';
-export default combineReducers({ modal, alert });
+import auth from './auth';
+export default combineReducers({ modal, alert, auth });

@@ -44,6 +44,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    console.log(req.body);
 
     /// If there any error from the midd condition
     if (!errors.isEmpty()) {
@@ -51,7 +52,7 @@ router.post(
     }
 
     //// Get data on the user from the request
-    const { name, email, password, adress, phonNumber } = req.body;
+    const { name, email, password2, adress, phonNumber } = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -72,12 +73,12 @@ router.post(
         email,
         adress,
         phonNumber,
-        password,
+        password2,
         avatar
       });
 
       ///Crypt password to hash with 10 salt
-      user.password = await bycrptjs.hash(password, 10);
+      user.password = await bycrptjs.hash(password2, 10);
 
       ///Create token for the user that apper on the Mail
       crypto.randomBytes(32, async (err, buffer) => {
@@ -98,13 +99,18 @@ router.post(
             html: `<p> to complete regerstrion click on the link </p>
             <p>Click Here<a href="http://localhost:5000/api/users/${token}">link</a></p>
             <p><a href="http://localhost:5000/api/users/${token}">http://localhost:5000/api/users/${token}</a></p>
+            <p><a href="http://localhost:3000/client/src/Components/Pages/PasswordPage/${token}">client</a></p>
+            <p><a href="http://localhost:3000/PasswordPage/${token}">client2</a></p>
             `
           },
           err => console.log(err)
         );
       });
+
       res.json({ msg: 'sucss' });
     } catch (error) {
+      console.log(error.message);
+
       res.json({ msg: error.message });
     }
   }
@@ -114,7 +120,19 @@ router.post(
 // @desc    Complete registeration procces for the user User route
 // @access  Public
 /////////////////
-///TO-DO
+router.get('/:token', async (req, res) => {
+  try {
+    const userToken = req.params.token;
+    const user = User.findOne({ userToken });
+    if (!user) {
+      res.json({ msg: 'user not found' });
+    }
+    res.json({});
+  } catch (error) {
+    console.log(err);
+    res.status(400).json({ msg: err });
+  }
+});
 ////////////////
 
 // @route   Post api/users/spesific user
@@ -130,12 +148,13 @@ router.post('/:token', async (req, res) => {
       res.json({ msg: 'user not found' });
     }
     if (user.expireToken > Date.now()) {
-      User.deleteOne({ user });
+      await User.findByIdAndRemove({ user: user.id });
       res.json({ msg: 'Time of token is expire please register agian' });
       ///Delete user
     }
 
     const { password } = req.body;
+
     user.password = await bycrptjs.hash(password, 10);
     user.token = undefined;
     user.expireToken = undefined;
@@ -158,7 +177,7 @@ router.post('/:token', async (req, res) => {
       }
     );
   } catch (error) {
-    console.log(err);
+    console.log(error);
     res.status(400).json({ msg: err });
   }
 });
