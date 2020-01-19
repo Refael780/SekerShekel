@@ -1,0 +1,39 @@
+.cont {
+  background-color: #fbfbfb;
+  padding: 1rem;
+  margin-top: 0;
+}
+
+.loginBox {
+  align-self: center;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 4rem;
+  width: 37rem;
+  height: 30rem;
+  margin: auto;
+  /* border: solid; */
+  background: border-box;
+  -webkit-box-shadow: -4px 14px 23px 11px rgba(120, 122, 122, 1);
+  -moz-box-shadow: -4px 14px 23px 11px rgba(120, 122, 122, 1);
+  box-shadow: -4px 14px 23px 11px rgba(120, 122, 122, 1);
+  box-sizing: border-box;
+  /* box-shadow: 5px 1px 2px 1px rgba(0, 0, 0, 0.26); */
+  /* box-shadow: 11px -1px 9px #8888; */
+  /* background-color: #fdfdfd; */
+}
+@media (max-width: 700px) {
+  .cont {
+    padding: 0rem;
+  }
+  .loginBox {
+    margin-top: 0;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    margin-bottom: 4rem;
+    width: 19rem;
+    height: 30rem;
+    margin: 1rem;
+  }
+}

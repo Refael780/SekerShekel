@@ -51,7 +51,7 @@ const Register = props => {
           <p className='lead'>
             <i className='fas fa-user'></i> צור את המשתמש שלך
           </p>
-          <Form dir='rtl' action='create-profile.html'>
+          <Form dir='rtl'>
             <FormGroup>
               <input
                 type='text'
