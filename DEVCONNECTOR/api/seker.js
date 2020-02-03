@@ -201,7 +201,7 @@ router.get('/sekers', async (req, res) => {
 
   const AllSeker = await User.findOne({ email: email })
     .populate('sekers')
-    .catch(err => res.json({ msg: 'Server Error' }));
+    .catch(err => res.json({ msg: 'Server  Error' }));
   if (!AllSeker) {
     return res.status(400).json({ msg: 'אף משתמש לא מילא' });
   }
