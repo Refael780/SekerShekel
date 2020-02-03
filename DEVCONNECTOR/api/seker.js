@@ -188,11 +188,9 @@ router.get('/users', async (req, res) => {
     .populate('userAnswer')
     .catch(err => res.json({ msg: 'Server Error' }));
   if (!Allusers) {
-    return res.status(400).json({ msg: 'לא מולא עדיין' });
+    return res.status(400).json({ msg: 'לא  מולא עדיין' });
   }
   return res.json(Allusers);
-
-  //  res.json(Allseker);
 });
 
 // @route   Get api/users/password page
