@@ -1,5 +1,74 @@
-import { REG_MID_SUC, REG_FAILD, REG_SUC } from './types';
 import axios from 'axios';
+import { setAlert } from './alert';
+import setAutToken from '../Utils/setAutToken';
+import {
+  REG_MID_SUC,
+  REG_FAILD,
+  REG_SUC,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUC,
+  LOGIN_FAILD,
+  LOG_OUT
+} from './types';
+
+export const logout = () => async dispatch => {
+  dispatch({
+    type: LOG_OUT
+  });
+};
+
+export const loginUser = ({ email, password }) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    const body = JSON.stringify({
+      email,
+      password
+    });
+
+    console.log('CLIENT' + email + password);
+
+    const res = await axios.post('/api/auth', body, config);
+    dispatch({
+      type: LOGIN_SUC,
+      payload: res.data
+    });
+
+    dispatch(loadUser());
+  } catch (error) {
+    const errors = error.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
+    dispatch({
+      type: LOGIN_FAILD
+    });
+  }
+};
+
+export const loadUser = () => async dispatch => {
+  console.log('action: TRY LOAD USER');
+
+  if (localStorage.token) {
+    setAutToken(localStorage.token);
+  }
+  try {
+    const res = await axios.get('/api/auth');
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data
+    });
+  } catch (error) {
+    dispatch({
+      type: AUTH_ERROR
+    });
+  }
+};
 
 export const regM = ({
   name,
@@ -25,8 +94,11 @@ export const regM = ({
       payload: res.data
     });
   } catch (error) {
-    console.log(error.response);
+    const errors = error.response.data.errors;
 
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: REG_FAILD
     });
@@ -47,6 +119,12 @@ export const regS = (mailToken, password) => async dispatch => {
       payload: res.data
     });
   } catch (error) {
+    const errors = error.response.data.errors;
+    console.log(errors);
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+    }
     dispatch({
       type: REG_FAILD
     });

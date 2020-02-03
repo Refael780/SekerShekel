@@ -19,6 +19,10 @@ body {
   line-height: 1.6;
   background-color: #fff;
   color: #333;
+  /* background-image: url('./img/yellowBack.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
 }
 
 a {

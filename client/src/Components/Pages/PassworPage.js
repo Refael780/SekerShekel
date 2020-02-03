@@ -3,6 +3,7 @@ import { Container } from 'reactstrap';
 import { regS } from '../../action/auth';
 import { setModal } from '../../action/modal';
 import { Redirect } from 'react-router-dom';
+import { setAlert } from '../../action/alert';
 
 import { connect } from 'react-redux';
 import '../../App.css';
@@ -27,7 +28,7 @@ export class PassworPage extends Component {
       if (password !== confirmPassword) {
         console.log('not match');
 
-        ///ToDO Alert
+        this.props.setAlert('סיסמאות לא זהות', 'danger');
       } else {
         console.log(this.props.match.params.token);
         this.props.regS(this.props.match.params.token, password);
@@ -81,4 +82,4 @@ export class PassworPage extends Component {
   }
 }
 
-export default connect(null, { regS, setModal })(PassworPage);
+export default connect(null, { regS, setModal, setAlert })(PassworPage);

@@ -3,7 +3,7 @@
 
   color: #0077b5;
   font-family: 'Alef', sans-serif;
-
+  background-color: #fff;
   text-align: center;
 }
 .shd {
@@ -28,8 +28,40 @@
   width: 100%;
 }
 
+@media (min-width: 900px) {
+  .reg {
+    margin: auto;
+  }
+  .reg,
+  .container-fluid,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+@media (min-width: 768px) {
+  .reg {
+    margin: auto;
+  }
+  .container-fluid,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 2px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
 @media (max-width: 700px) {
   .reg {
+    width: 50%;
     margin: auto;
   }
 }

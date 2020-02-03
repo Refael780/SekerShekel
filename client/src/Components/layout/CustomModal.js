@@ -13,7 +13,8 @@ const CustomModal = props => {
 
   return (
     props.modal !== null &&
-    props.modal.length > 0 && (
+    props.modal.length > 0 &&
+    props.modal[0] !== null && (
       <div className='text-center' dir='rtl'>
         <Modal className='text-center' isOpen={modal} toggle={toggle}>
           <ModalHeader className='text-center' toggle={toggle}>

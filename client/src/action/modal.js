@@ -11,6 +11,6 @@ export const setModal = (msg, alertType) => dispatch => {
 export const remModel = id => dispatch => {
   dispatch({
     type: REMOVE_MODAL,
-    payload: { id }
+    payload: id
   });
 };

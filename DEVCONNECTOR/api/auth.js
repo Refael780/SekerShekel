@@ -3,6 +3,9 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const User = require('../models/Users');
 const bycrptjs = require('bcryptjs');
+const config = require('config');
+const jwt = require('jsonwebtoken');
+
 const { check, validationResult } = require('express-validator');
 
 const BAD_RESPONSE_STAUTS = 400;
@@ -15,9 +18,11 @@ const BAD_RESPONSE_STAUTS = 400;
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
+    console.log('///////' + user);
+
     res.json(user);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     res.status(500);
   }
 });
@@ -47,18 +52,23 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
+      console.log(user);
 
       if (!user) {
+        console.log('NOT FIND USER');
+
         return res
           .status(BAD_RESPONSE_STAUTS)
           .json({ errors: [{ msg: 'Invalid Carditinal' }] });
       }
       const isMatch = await bycrptjs.compare(password, user.password);
       if (!isMatch) {
+        console.log('PASSWORD IS NOT MATCH');
         return res
           .status(BAD_RESPONSE_STAUTS)
           .json({ errors: [{ msg: 'Invalid Carditinal' }] });
       }
+      console.log('SERVER SIDE: PASSWORD IS MATCH');
 
       const Payload = {
         user: {
@@ -73,10 +83,14 @@ router.post(
           if (err) {
             throw err;
           }
+          console.log('THE TOKENדדדדדדדדדדדדד ');
+
           res.json({ token });
         }
       );
     } catch (error) {
+      console.log('=+_+_+_+_+_+_+_');
+
       res.json({ msg: error.message });
     }
   }

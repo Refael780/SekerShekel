@@ -9,7 +9,6 @@ const nodemailer = require('nodemailer');
 const sendGridTransport = require('nodemailer-sendgrid-transport');
 const crypto = require('crypto');
 const { check, validationResult } = require('express-validator');
-
 const transporter = nodemailer.createTransport(
   sendGridTransport({
     auth: {
@@ -44,7 +43,6 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    console.log(req.body);
 
     /// If there any error from the midd condition
     if (!errors.isEmpty()) {
@@ -119,7 +117,6 @@ router.post(
 // @route   Get api/users/password page
 // @desc    Complete registeration procces for the user User route
 // @access  Public
-/////////////////
 router.get('/:token', async (req, res) => {
   try {
     const userToken = req.params.token;

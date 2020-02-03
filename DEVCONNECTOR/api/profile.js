@@ -117,12 +117,9 @@ router.post(
 router.get('/', async (req, res) => {
   try {
     const profiles = await Profile.find().populate('user', ['name', 'avatar']);
-    console.log(profiles);
 
     return res.json(profiles);
   } catch (error) {
-    console.log(error);
-
     return res.status(500).json('Server Error');
   }
 });

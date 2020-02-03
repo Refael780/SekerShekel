@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../action/alert';
 import { setModal } from '../../action/modal';
 import { regM } from '../../action/auth';
+import Alert from '../../Components/layout/Alert';
+
 import '../../App.css';
 
 const Register = props => {
@@ -24,23 +26,19 @@ const Register = props => {
     ///if some of the input is wrong we alert to user
     ///TO-DO
 
-    props.setAlert('confirm', 'danger'); ///To do the spesidic alert
+    //props.setAlert('confirm', 'danger'); ///To do the spesidic alert
 
     try {
       const tempPass = '1234';
       console.log('before regM');
       props.regM({ name, email, tempPass, adress, phonNumber });
+      props.setModal(
+        'להשלמת התהליך,מייל ישלח בדקות הקרובות אנא לחץ על הלינק והזן סיסמא',
+        'as'
+      );
     } catch (error) {
       console.log(error);
     }
-
-    ///if user already exist
-    ///TO-DO
-
-    props.setModal(
-      'להשלמת התהליך,מייל ישלח בדקות הקרובות אנא לחץ על הלינק והזן סיסמא',
-      'as'
-    );
   };
 
   return (
@@ -87,6 +85,7 @@ const Register = props => {
                 onChange={e => onChange(e)}
               />
             </FormGroup>
+            <Alert />
             <input
               onClick={e => RegisterHandler(e)}
               type='submit'

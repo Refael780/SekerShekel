@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { loginUser } from '../../action/auth';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import './Login.css';
+import '../../App.css';
 import {
   Container,
   Row,
@@ -10,10 +15,34 @@ import {
   Input,
   FormText
 } from 'reactstrap';
-import './Login.css';
-import '../../App.css';
-const Login = () => {
-  return (
+
+const Login = props => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const { email, password } = formData;
+  const onChange = e =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const loginHandler = async e => {
+    e.preventDefault();
+    ///if some of the input is wrong we alert to user
+    ///TO-DO
+    try {
+      console.log('CLICK ON LOGIN SEND' + email + password);
+
+      props.loginUser({ email, password });
+    } catch (error) {
+      console.log(error);
+      //alert
+    }
+  };
+
+  return props.isAuth ? (
+    <Redirect to='/' />
+  ) : (
     <Container fluid>
       <div dir='rtl' className='cont'>
         <Row>
@@ -21,7 +50,9 @@ const Login = () => {
             <div className='loginBox'>
               <section dir='rtl'>
                 <Col md='12'>
-                  <h1 className='large text-primary  text-center'>התחברות</h1>
+                  <h1 className='  text-center'>התחברות</h1>
+                  <br />
+                  <hr />
                   <p
                     style={{ float: 'right' }}
                     className='lead text-center'
@@ -40,21 +71,22 @@ const Login = () => {
                       </Label>
                       <Input
                         bsSize='lg'
-                        type='password'
+                        type='email'
                         placeholder='כתובת מייל'
-                        name='password'
+                        name='email'
                         //onChange={e => onPasswordChange(e)}
                         required
+                        onChange={e => onChange(e)}
                       />
                     </FormGroup>
                     <FormGroup>
-                      <Label>סיסמא</Label>
+                      <Label style={{ float: 'right' }}>סיסמא</Label>
                       <Input
                         bsSize='lg'
                         type='password'
                         placeholder='סיסמא'
-                        name='confirmPassword'
-                        //  onChange={e => onConfirmPasswordChange(e)}
+                        name='password'
+                        onChange={e => onChange(e)}
                       />
                     </FormGroup>
                     <Input
@@ -63,10 +95,11 @@ const Login = () => {
                       //onClick={e => passwordHandler(e)}
                       className='btn btn-primary'
                       value='התחברות'
+                      onClick={e => loginHandler(e)}
                     />
                   </Form>
                   <p style={{ float: 'right' }} className='my-1'>
-                    אין לך משתמש? <a href='register.html'>רישום</a>
+                    אין לך משתמש? <a href='/'>רישום</a>
                   </p>
                 </Col>
               </section>
@@ -78,4 +111,8 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = state => ({
+  isAuth: state.auth.isFullAut
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);
