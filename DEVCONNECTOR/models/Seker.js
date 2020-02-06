@@ -21,6 +21,12 @@ const SekerSchema = new mongoose.Schema({
       ref: 'user'
     }
   ],
+  profileAnswer: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
+    }
+  ],
   period: {
     start: {
       type: Date,
@@ -28,7 +34,7 @@ const SekerSchema = new mongoose.Schema({
     },
     end: {
       type: String,
-      default: Date.now + 360000000
+      default: Date() + 360000000
     }
   },
   formType: String,

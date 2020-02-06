@@ -30,7 +30,6 @@ export class PassworPage extends Component {
 
         this.props.setAlert('סיסמאות לא זהות', 'danger');
       } else {
-        console.log(this.props.match.params.token);
         this.props.regS(this.props.match.params.token, password);
         ///Todo Alert if the password is iligal
         this.props.setModal('ברכות על סיום ההרשמה');

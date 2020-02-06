@@ -28,6 +28,12 @@ const ProfileSchema = new mongoose.Schema({
   },
   profession: {
     type: [String]
-  }
+  },
+  sekers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'seker'
+    }
+  ]
 });
 module.exports = Profile = mongoose.model('profile', ProfileSchema);

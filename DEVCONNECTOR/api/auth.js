@@ -18,12 +18,12 @@ const BAD_RESPONSE_STAUTS = 400;
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
-    console.log('///////' + user);
-
-    res.json(user);
+    if (!user)
+      return res.status(BAD_RESPONSE_STAUTS).json({ msg: 'User NOT Found' });
+    return res.json(user);
   } catch (error) {
     //console.log(error);
-    res.status(500);
+    res.status(500).json({ msg: error });
   }
 });
 

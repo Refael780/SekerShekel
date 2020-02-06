@@ -9,10 +9,14 @@ import {
   AUTH_ERROR,
   LOGIN_SUC,
   LOGIN_FAILD,
-  LOG_OUT
+  LOG_OUT,
+  CLEAR_PROFILE
 } from './types';
 
 export const logout = () => async dispatch => {
+  dispatch({
+    type: CLEAR_PROFILE
+  });
   dispatch({
     type: LOG_OUT
   });

@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Qut = require('../models/Qut');
 const Seker = require('../models/Seker');
+const Profile = require('../models/Profile');
 const User = require('../models/Users');
 const auth = require('../middleware/auth');
 const NOT_FOUND = -1 || undefined || null;
@@ -12,7 +13,7 @@ const NOT_FOUND = -1 || undefined || null;
 // @access  Public
 router.get('/', async (req, res) => {
   const Allseker = await Seker.find().catch(err => {
-    return res.status(500).json('Server Error' + { msg: err });
+    return res.status(500).json('Server Error ' + { msg: err });
   });
   res.json(Allseker);
 });
@@ -71,12 +72,29 @@ router.post('/:title', auth, async (req, res) => {
   let user = await User.findById(req.user.id).catch(err =>
     res.status(500).json(err)
   );
+  // if there NOT Seker found
+  if (!user) {
+    return res.status(400).json({ msg: 'משתמש לא נמצא' });
+  }
+  console.log(req.user.id);
+
+  let profile = await Profile.findOne({
+    user: req.user.id
+  })
+    .populate('user', ['name', 'avatar'])
+    .catch(err => {
+      return res.status(500).json({ mssssg: err });
+    });
+
+  if (!profile) {
+    return res.status(400).json({ msg: 'פרופיל לא נמצא' });
+  }
   ///find the spesfic Seker in db
   let seker = await Seker.findOne({ title: title }).catch(err =>
     res.status(500).json('Server Erorr-Seker')
   );
 
-  // if there NOT found
+  // if there NOT Seker found
   if (!seker) {
     return res.status(400).json({ msg: 'סקר לא נמצא' });
   }
@@ -176,10 +194,65 @@ router.post('/:title', auth, async (req, res) => {
         .json({ msg: 'Faild to Save Seker in The User /n CONSOLE ERR: ' + err })
     );
 
+  //Push the seker to profile && push profile to the seker
+  if (profile) {
+    profile.sekers.push(seker);
+    await profile.save().catch(err =>
+      res.status(400).json({
+        msg: 'Faild to Save Seker in The Profile User /n CONSOLE ERR: ' + err
+      })
+    );
+
+    //PUSH THE PROFILE TO SEKER
+    seker.profileAnswer.push(profile);
+    await seker
+      .save()
+      .catch(err =>
+        res
+          .status(400)
+          .json({ msg: 'Faild to Save User /n CONSOLE ERR: ' + err })
+      );
+  }
+
   return res.json(seker);
 });
 
-// @route   GET api/sekers
+// @route   GET api/seker/Data
+// @desc    get all data from
+// @access  Public
+router.get('/:title/data', async (req, res) => {
+  let surveyData = [];
+  const title = req.params.title;
+  const surveyQuts = await Seker.findOne({ title: title })
+    .select('surveyQuts')
+    .catch(err => res.json(err));
+
+  const allQustionID = surveyQuts.surveyQuts.map(el => el.qut);
+
+  allQustionID.forEach(async (el, index, arr) => {
+    await Qut.findById(
+      el,
+      ['qust', 'answers.choosenAmount', 'answers.answer'],
+      (err, found) => {
+        if (err) {
+          return res.json({ err: err });
+        }
+        if (!found) {
+          return res.json('qustions dont found');
+        }
+
+        surveyData.push(found);
+        if (surveyData.length == allQustionID.length) {
+          console.log('surveyData.length: ' + surveyData.length);
+
+          return res.json(surveyData);
+        }
+      }
+    );
+  });
+});
+
+// @route   GET api/seker/users
 // @desc    get all user that fill spesific user Surveys
 // @access  Public
 router.get('/users', async (req, res) => {

@@ -12,7 +12,9 @@ const { check, validationResult } = require('express-validator');
 // @access  private
 router.get('/me', auth, async (req, res) => {
   try {
-    const profile = await Profile.findById({
+    console.log(req.user);
+
+    const profile = await Profile.findOne({
       user: req.user.id
     }).populate('user', ['name', 'avatar']);
     if (!profile) {
@@ -20,8 +22,10 @@ router.get('/me', auth, async (req, res) => {
     }
     return res.json(profile);
   } catch (error) {
+    //   console.log(profile);
+
     console.log('Server Error');
-    return res.status(500).json({ msg: 'Server Error' });
+    return res.status(500).json({ msg: 'Server Error' + error });
   }
 });
 
@@ -54,7 +58,6 @@ router.post(
       education,
       educationalInstitution,
       profession
-      //Seker that he do
     } = req.body;
 
     const ProfileFields = {};

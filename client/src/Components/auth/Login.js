@@ -40,7 +40,7 @@ const Login = props => {
     }
   };
 
-  return props.isAuth ? (
+  return props.isAuth && !props.loading ? (
     <Redirect to='/' />
   ) : (
     <Container fluid>
@@ -112,7 +112,8 @@ const Login = props => {
 };
 
 const mapStateToProps = state => ({
-  isAuth: state.auth.isFullAut
+  isAuth: state.auth.isFullAut,
+  loading: state.auth.loading
 });
 
 export default connect(mapStateToProps, { loginUser })(Login);
