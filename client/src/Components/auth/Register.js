@@ -61,7 +61,7 @@ const Register = props => {
             </FormGroup>
             <FormGroup>
               <input
-                type='מייל'
+                type='email'
                 placeholder='כתובת מייל @'
                 name='email'
                 onChange={e => onChange(e)}

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { loadMyProfile } from '../../action/profile';
 import axios from 'axios';
 import Axios from 'axios';
+import Loading from '../layout/Loading/Loading';
 class UserDashbord extends Component {
   componentDidMount = async () => {
     console.log('componentDidMount');
@@ -26,7 +27,7 @@ class UserDashbord extends Component {
     return this.props.profile.loading &&
       this.props.profile.myProfile === null ? (
       <Fragment>
-        <div>loading....</div>
+        <Loading />
       </Fragment>
     ) : (
       <Fragment>

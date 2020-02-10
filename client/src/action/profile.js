@@ -17,3 +17,35 @@ export const loadMyProfile = () => async dispatch => {
     });
   }
 };
+
+export const CreateOrUpdateProfile = profile => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  console.log('+-=-=-=-=-=-=-=-=-=-=-=');
+
+  console.log(profile);
+  console.log('+-=-=-=-=-=-=-=-=-=-=-=');
+
+  console.log({ ...profile });
+  console.log('+-=-=-=-=-=-=-=-=-=-=-=');
+
+  const body = JSON.stringify({ ...profile });
+  console.log(body);
+  console.log('+-=-=-=-=-=-=-=-=-=-=-=');
+
+  try {
+    const res = await axios.post('api/profile', body, config);
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERORR,
+      payload: { msg: error.response.statusText, status: error.response.status }
+    });
+  }
+};

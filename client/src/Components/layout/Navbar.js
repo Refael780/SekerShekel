@@ -69,7 +69,7 @@ const Navbar = prop => {
             <Link to='/register'> הזמן סקר</Link>
           </li>
           <li>
-            <Link onClick={e => logOut(e)}>התנתקות</Link>
+            <a onClick={e => logOut(e)}>התנתקות</a>
           </li>
           <li>
             <a href='/'>{user.name !== null ? user.name : ''}</a>

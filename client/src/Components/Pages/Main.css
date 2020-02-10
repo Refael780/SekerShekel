@@ -7,14 +7,15 @@
   text-align: center;
 }
 .shd {
+  margin-top: 0.5rem;
   border: 0.2px;
   box-shadow: 5px 2px 18px #888888;
   margin-bottom: 0.2rem;
 }
 .info {
-  margin-left: 1.5rem;
   text-align: center;
-
+  font-style: italic;
+  margin: 0.2rem 0rem 0.5rem 0rem;
   font-size: 9rem;
 }
 

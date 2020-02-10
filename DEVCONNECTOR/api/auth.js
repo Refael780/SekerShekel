@@ -20,9 +20,9 @@ router.get('/', auth, async (req, res) => {
     const user = await User.findById(req.user.id).select('-password');
     if (!user)
       return res.status(BAD_RESPONSE_STAUTS).json({ msg: 'User NOT Found' });
+
     return res.json(user);
   } catch (error) {
-    //console.log(error);
     res.status(500).json({ msg: error });
   }
 });
@@ -52,7 +52,6 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
-      console.log(user);
 
       if (!user) {
         console.log('NOT FIND USER');
@@ -81,17 +80,17 @@ router.post(
         { expiresIn: 360000 },
         (err, token) => {
           if (err) {
-            throw err;
+            return res.json({ msg: 'Token Error' });
           }
-          console.log('THE TOKENדדדדדדדדדדדדד ');
 
           res.json({ token });
         }
       );
     } catch (error) {
+      console.error(err.message);
       console.log('=+_+_+_+_+_+_+_');
 
-      res.json({ msg: error.message });
+      res.status(500).send('Server error');
     }
   }
 );

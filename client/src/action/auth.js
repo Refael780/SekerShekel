@@ -13,6 +13,24 @@ import {
   CLEAR_PROFILE
 } from './types';
 
+export const loadUser = () => async dispatch => {
+  console.log('action: TRY LOAD USER');
+
+  if (localStorage.token) {
+    setAutToken(localStorage.token);
+  }
+  try {
+    const res = await axios.get('/api/auth');
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data
+    });
+  } catch (error) {
+    dispatch({
+      type: AUTH_ERROR
+    });
+  }
+};
 export const logout = () => async dispatch => {
   dispatch({
     type: CLEAR_PROFILE
@@ -22,7 +40,7 @@ export const logout = () => async dispatch => {
   });
 };
 
-export const loginUser = ({ email, password }) => async dispatch => {
+export const loginUser = (email, password) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -51,25 +69,6 @@ export const loginUser = ({ email, password }) => async dispatch => {
     }
     dispatch({
       type: LOGIN_FAILD
-    });
-  }
-};
-
-export const loadUser = () => async dispatch => {
-  console.log('action: TRY LOAD USER');
-
-  if (localStorage.token) {
-    setAutToken(localStorage.token);
-  }
-  try {
-    const res = await axios.get('/api/auth');
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data
-    });
-  } catch (error) {
-    dispatch({
-      type: AUTH_ERROR
     });
   }
 };

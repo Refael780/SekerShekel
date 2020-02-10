@@ -4,7 +4,9 @@ import Register from '../auth/Register';
 import CustomModal from '../layout/CustomModal';
 import CaruselSeker from '../layout/CarouselSeker';
 import NotFInsh from '../layout/NotFInsh';
+import RefisterCustom from '../RegisterCustom/RegisterCustom';
 import './Main.css';
+import RegisterCustom from '../RegisterCustom/RegisterCustom';
 class Main extends Component {
   render() {
     return (
@@ -17,8 +19,15 @@ class Main extends Component {
             </Col>
           </Row>
           <Row className='borderSwitchPicture'>
-            <Col className='info' md='7'>
-              <Container style={{ fontSize: '1.4rem' }}>
+            <Col className='info' md='12'>
+              <Container
+                style={{
+                  fontSize: '1.4rem',
+                  height: '15rem',
+                  padding: ' 1rem',
+                  textAlign: 'center'
+                }}
+              >
                 ש המון גרסאות זמינות לפסקאות של Lorem Ipsum. אבל רובם עברו
                 שינויים בצורה זו או אחרת, על ידי השתלת הומור או מילים אקראיות
                 שלא נראות אפילו מעט אמינות. אם אתה הולך להשתמש במקטעים של של
@@ -27,9 +36,8 @@ class Main extends Component {
                 Ipsum אתה צריך להיות בטוח שאין משהו מביך חבוי בתוך הטקס
               </Container>
             </Col>
-
-            <Col className=' reg' md='4'>
-              <Register></Register>
+            <Col>
+              <RegisterCustom></RegisterCustom>
             </Col>
           </Row>
           <Row>
