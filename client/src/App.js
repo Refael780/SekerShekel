@@ -10,7 +10,7 @@ import setAutToken from './Utils/setAutToken';
 import store from './store';
 import { loadUser } from './action/auth';
 import ProfileForm from './Components/Pages/profile-form/ProfileForm';
-
+import FillSurvey from './Components/Pages/Survey/FillSurvey';
 import './App.css';
 import auth from './reducers/auth';
 
@@ -56,6 +56,7 @@ const App = () => {
                 path='/PasswordPage/:token'
                 component={PasswordPage}
               ></Route>
+              <Route exect path='/FillSurvey' component={FillSurvey}></Route>
             </Switch>
           </section>
         </Fragment>

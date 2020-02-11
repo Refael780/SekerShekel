@@ -18,6 +18,32 @@ router.get('/', async (req, res) => {
   res.json(Allseker);
 });
 
+// @route   GET api/sekers
+// @desc    get Spesific surveys
+// @access  Public
+router.get('/:title', async (req, res) => {
+  const title = req.params.title;
+  console.log('====' + { title });
+  console.log(typeof { title });
+
+  const seker = await Seker.findOne({ title: title.toString().trim() }).catch(
+    err => {
+      console.log('find error');
+
+      return res.status(500).json('Server Erorr-Seker');
+    }
+  );
+  console.log(seker);
+
+  // if there NOT Seker found
+  if (!seker) {
+    console.log('NOT FOUND');
+
+    return res.status(400).json({ msg: 'סקר לא נמצא' });
+  }
+  res.json(seker);
+});
+
 // @route   POST api/sekers
 // @desc    Create new Survey
 // @access  Public
@@ -223,7 +249,9 @@ router.post('/:title', auth, async (req, res) => {
 router.get('/:title/data', async (req, res) => {
   let surveyData = [];
   const title = req.params.title;
-  const surveyQuts = await Seker.findOne({ title: title })
+  console.log(title);
+
+  const surveyQuts = await Seker.findOne({ title: title.toString().trim() })
     .select('surveyQuts')
     .catch(err => res.json(err));
 
@@ -232,7 +260,7 @@ router.get('/:title/data', async (req, res) => {
   allQustionID.forEach(async (el, index, arr) => {
     await Qut.findById(
       el,
-      ['qust', 'answers.choosenAmount', 'answers.answer'],
+      ['qust', 'isChoosenAnswer', 'answers.choosenAmount', 'answers.answer'],
       (err, found) => {
         if (err) {
           return res.json({ err: err });

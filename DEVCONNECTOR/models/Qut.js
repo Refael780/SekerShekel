@@ -5,6 +5,10 @@ const QutSchema = new mongoose.Schema({
     type: String
   },
   index: Number,
+  isChoosenAnswer: {
+    type: Boolean,
+    default: true
+  },
   answers: [
     {
       answer: {

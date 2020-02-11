@@ -7,6 +7,7 @@ import NotFInsh from '../layout/NotFInsh';
 import RefisterCustom from '../RegisterCustom/RegisterCustom';
 import './Main.css';
 import RegisterCustom from '../RegisterCustom/RegisterCustom';
+import FillSurvey from './Survey/FillSurvey';
 class Main extends Component {
   render() {
     return (

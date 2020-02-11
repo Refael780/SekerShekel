@@ -3,4 +3,5 @@ import alert from './alert';
 import modal from './modal';
 import auth from './auth';
 import profile from './profile';
-export default combineReducers({ modal, alert, auth, profile });
+import survey from './survey';
+export default combineReducers({ modal, alert, auth, profile, survey });

@@ -20,3 +20,6 @@ export const PROFILE_ERORR = 'PROFILE_ERORR';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 
 //Seker Types
+export const GET_SURVEY = 'GET_SURVEY';
+export const SURVEY_ERROR = 'SURVEY_ERROR';
+export const FILL_SURVEY_SUCC = 'FILL_SURVEY_SUCC';
