@@ -21,5 +21,7 @@ export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 
 //Seker Types
 export const GET_SURVEY = 'GET_SURVEY';
+export const GET_ALL_SURVEYS = 'GET_ALL_SURVEYS';
+export const GET_SORT_SURVEYS = 'GET_SORT_SURVEYS';
 export const SURVEY_ERROR = 'SURVEY_ERROR';
 export const FILL_SURVEY_SUCC = 'FILL_SURVEY_SUCC';

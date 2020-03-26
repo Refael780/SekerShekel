@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
 import Register from '../auth/Register';
 import CustomModal from '../layout/CustomModal';
@@ -8,11 +9,15 @@ import RefisterCustom from '../RegisterCustom/RegisterCustom';
 import './Main.css';
 import RegisterCustom from '../RegisterCustom/RegisterCustom';
 import FillSurvey from './Survey/FillSurvey';
+import { loadAllSurvey } from '../../action/survey';
 class Main extends Component {
+  componentDidMount = () => {
+    this.props.loadAllSurvey();
+  };
   render() {
     return (
       <Fragment>
-        <Container fluid>
+        <Container fluid style={{ margin: '0.2rem' }}>
           <CustomModal />
           <Row>
             <Col className='shd'>
@@ -42,25 +47,23 @@ class Main extends Component {
             </Col>
           </Row>
           <Row>
-            <Col style={{ height: '40vh' }} className='borderSwitchPicture'>
-              <NotFInsh />
+            <Col style={{ margin: '1rem' }}>
+              <NotFInsh index={0} />
+            </Col>
+            <Col style={{ margin: '1rem' }}>
+              <NotFInsh index={1} />
+            </Col>
+            <Col style={{ margin: '1rem' }}>
+              <NotFInsh index={4} />
             </Col>
           </Row>
           <Row>
-            <Col
-              md='8'
-              style={{ height: '40vh' }}
-              className='borderSwitchPicture'
-            >
-              <NotFInsh />
+            <Col md='8' className='borderSwitchPicture'>
+              <NotFInsh index={2} />
             </Col>
-            <Col
-              md='4'
-              style={{ height: '40vh' }}
-              className='borderSwitchPicture'
-            >
-              <NotFInsh />
-              <NotFInsh />
+            <Col md='4' className='borderSwitchPicture'>
+              <NotFInsh index={2} />
+              <NotFInsh index={2} />
             </Col>
           </Row>
         </Container>
@@ -68,4 +71,4 @@ class Main extends Component {
     );
   }
 }
-export default Main;
+export default connect(null, { loadAllSurvey })(Main);

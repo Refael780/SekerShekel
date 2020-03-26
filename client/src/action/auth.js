@@ -88,9 +88,6 @@ export const regM = ({
   const password2 = '21231233';
   const body = JSON.stringify({ name, email, password2, adress, phonNumber });
   try {
-    console.log({ name, email, password, adress, phonNumber });
-    console.log(body);
-
     const res = await axios.post('/api/users', body, config);
     dispatch({
       type: REG_MID_SUC,
