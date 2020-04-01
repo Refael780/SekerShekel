@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import Register from '../auth/Register';
 import CustomModal from '../layout/CustomModal';
 import CaruselSeker from '../layout/CarouselSeker';
@@ -19,6 +19,7 @@ class Main extends Component {
       <Fragment>
         <Container fluid style={{ margin: '0.2rem' }}>
           <CustomModal />
+
           <Row>
             <Col className='shd'>
               <CaruselSeker />
@@ -47,23 +48,54 @@ class Main extends Component {
             </Col>
           </Row>
           <Row>
-            <Col style={{ margin: '1rem' }}>
-              <NotFInsh index={0} />
-            </Col>
-            <Col style={{ margin: '1rem' }}>
-              <NotFInsh index={1} />
-            </Col>
-            <Col style={{ margin: '1rem' }}>
-              <NotFInsh index={4} />
+            <Col>
+              <div
+                style={{
+                  fontFamily: 'Amatic SC ,cursive',
+                  textAlign: 'center'
+                }}
+              >
+                {' '}
+                <p style={{ fontSize: '4rem' }}>סקרים שאינם יסתיימו</p>
+              </div>
             </Col>
           </Row>
           <Row>
-            <Col md='8' className='borderSwitchPicture'>
+            <Col style={{ margin: '0.6rem' }}>
+              <NotFInsh index={0} />
+            </Col>
+            <Col style={{ margin: '0.6rem' }}>
+              <NotFInsh index={1} />
+            </Col>
+            <Col style={{ margin: '0.6rem' }}>
               <NotFInsh index={2} />
             </Col>
-            <Col md='4' className='borderSwitchPicture'>
-              <NotFInsh index={2} />
-              <NotFInsh index={2} />
+          </Row>
+          <br />
+          <hr />
+          <Row>
+            <Col md='8'>
+              <CaruselSeker />
+            </Col>
+            <Col md='4'>
+              <Button
+                style={{ alignItems: 'center' }}
+                color='primary'
+                size='lg'
+                block
+                outline
+              >
+                הזמן סקר
+              </Button>
+              <Button
+                style={{ alignItems: 'center' }}
+                color='primary'
+                size='lg'
+                block
+                outline
+              >
+                הרשם לקבלת עדכונים
+              </Button>
             </Col>
           </Row>
         </Container>

@@ -21,9 +21,10 @@ class FillSurvey extends Component {
   };
 
   componentDidMount = async () => {
-    const title = 'ask';
+    const title = 's7';
 
-    await this.props.loadSurveyToFill(title);
+    await this.props.loadSurveyToFill(this.props.match.params.title.toString());
+    console.log(this.props.match.params);
 
     const surveyQuts = this.props.survey.map((el, index) => {
       return {
@@ -40,7 +41,7 @@ class FillSurvey extends Component {
     console.log(surveyQuts);
 
     this.setState({
-      title: title,
+      title: this.props.match.params.title.toString(),
       newSurvey: [...this.props.survey],
       survey: [...surveyQuts]
     });
@@ -86,8 +87,11 @@ class FillSurvey extends Component {
 
   SubmitTheSurvey = e => {
     e.preventDefault();
-    console.log(this.state.survey);
-    this.props.fillSurveyCom('ask', this.state.survey);
+
+    this.props.fillSurveyCom(
+      this.props.match.params.title.toString(),
+      this.state.survey
+    );
   };
   render() {
     const s = this.props.survey;

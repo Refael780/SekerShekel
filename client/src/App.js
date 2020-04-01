@@ -56,7 +56,11 @@ const App = () => {
                 path='/PasswordPage/:token'
                 component={PasswordPage}
               ></Route>
-              <Route exect path='/FillSurvey' component={FillSurvey}></Route>
+              <Route
+                exect
+                path='/FillSurvey/:title'
+                component={FillSurvey}
+              ></Route>
             </Switch>
           </section>
         </Fragment>

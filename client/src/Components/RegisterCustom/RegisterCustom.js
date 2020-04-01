@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from 'react';
+import { Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../action/alert';
 import { setModal } from '../../action/modal';
@@ -49,7 +50,16 @@ const RegisterCustom = props => {
       >
         <div className='signup-content'>
           <div className='signup-form'>
-            <h2 className='form-title'>הרשם</h2>
+            <h2
+              style={{
+                fontFamily: 'Amatic SC ,cursive',
+                textAlign: 'center',
+                fontSize: '5rem'
+              }}
+              className='form-title'
+            >
+              הירשם
+            </h2>
             <form className='register-form' id='register-form'>
               <div className='form-group'>
                 <label for='name'>
@@ -118,6 +128,7 @@ const RegisterCustom = props => {
               </div>
               <div className='form-group form-button'>
                 <input
+                  outline
                   onClick={e => RegisterHandler(e)}
                   type='submit'
                   value='הרשם'

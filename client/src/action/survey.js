@@ -44,8 +44,8 @@ export const loadAllSurvey = () => async dispatch => {
     const sortedActivitSurvey = allSurvey.sort(
       (a, b) =>
         new Date(b.period.end) -
-        new Date(b.period.start) -
-        (new Date(a.period.end) - new Date(a.period.start))
+        new Date(Date.now()) -
+        (new Date(a.period.end) - new Date(Date.now()))
     );
 
     ///TO Do

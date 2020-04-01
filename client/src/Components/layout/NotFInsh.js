@@ -2,64 +2,79 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Loading from '../layout/Loading/Loading';
 import Countdown from 'react-countdown';
-
+import { Button } from 'reactstrap';
+import FillSurvy from '../Pages/Survey/FillSurvey';
+import { Link } from 'react-router-dom';
 //import { Card, Icon, Image } from 'semantic-ui-react';
+const Expierd = () => <div>Expierd</div>;
 
 class NotFInsh extends Component {
-  componentDidMount = () => {
-    console.log('componentDidMount');
-
-    console.log(this.props.sortedSurey[0]);
-
-    let sort = this.props.sortedSurey[0];
-    console.log('SORT');
-    console.log(sort);
+  state = {
+    isExpierd: false
   };
   render() {
     return this.props.loading || this.props.sortedSurey.length === 0 ? (
       <Loading></Loading>
     ) : (
       <Fragment>
-        <div className='ui card'>
+        <div
+          className='ui card'
+          style={{ boxShadow: '-4px 5px 14px 0px #000000ad' }}
+        >
           <div className='image'>
             <img
               style={{ maxHeight: '14rem' }}
               src={this.props.sortedSurey[this.props.index].sekerImg}
             />
           </div>
-          <div className='content'>
+          <div className='content' dir='rtl'>
             <div className='header'>
               {console.log(this.props.sortedSurey[0].active)}
 
               {this.props.sortedSurey[this.props.index].title}
             </div>
-
             <div className='meta'>
               <span className='date'>Joined in 2015</span>
             </div>
-            <div className='description'>
-              {console.log(
-                Date.parse(this.props.sortedSurey[this.props.index].period.end)
-              )}
-              Time To Finsh:{' '}
+            <div style={{ fontWeight: 'bold' }} className='description'>
+              זמן לסיום הסקר:{' '}
               <span>
                 <Countdown
-                  zeroPadTime={0}
                   date={
                     Date.now() +
-                    Date.parse(
+                    (Date.parse(
                       this.props.sortedSurey[this.props.index].period.end
-                    ) /
-                      240
+                    ) -
+                      Date.now())
                   }
-                ></Countdown>
+                >
+                  <Expierd />
+                </Countdown>{' '}
               </span>
             </div>
+            <br />{' '}
+            <Link
+              to={{
+                pathname: `/FillSurvey/${
+                  this.props.sortedSurey[this.props.index].title
+                }`
+              }}
+            >
+              <Button
+                style={{ alignItems: 'center' }}
+                outline
+                block
+                size='lg'
+                color='primary'
+              >
+                הכנס
+              </Button>{' '}
+            </Link>
           </div>
           <div className='extra content'>
             <a>
               <i aria-hidden='true' className='user icon'></i>
-              22 Friends
+              {this.props.sortedSurey[this.props.index].userAnswer.length} מלאו
             </a>
           </div>
         </div>
