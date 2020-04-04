@@ -9,6 +9,15 @@ const QutSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  uAnswer: [
+    {
+      Filluser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      },
+      fullAnswer: String
+    }
+  ],
   answers: [
     {
       answer: {

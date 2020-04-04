@@ -88,6 +88,7 @@ router.post(
         user.token = token;
         user.expireToken = Date() + 3600000;
         await user.save();
+        console.log('Email->' + user.email);
 
         await transporter.sendMail(
           {

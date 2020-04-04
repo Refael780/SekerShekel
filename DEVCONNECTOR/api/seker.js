@@ -6,7 +6,7 @@ const Seker = require('../models/Seker');
 const Profile = require('../models/Profile');
 const User = require('../models/Users');
 const auth = require('../middleware/auth');
-const NOT_FOUND = -1 || undefined || null;
+const NOT_FOUND = -1 || undefined || null || [];
 
 // @route   GET api/sekers
 // @desc    get all Surveys
@@ -23,17 +23,12 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:title', async (req, res) => {
   const title = req.params.title;
-  console.log('====' + { title });
-  console.log(typeof { title });
 
   const seker = await Seker.findOne({ title: title.toString().trim() }).catch(
     err => {
-      console.log('find error');
-
       return res.status(500).json('Server Erorr-Seker');
     }
   );
-  console.log(seker);
 
   // if there NOT Seker found
   if (!seker) {
@@ -55,11 +50,12 @@ router.post(
       .isEmpty()
   ],
   async (req, res) => {
-    const { title, surveyQuts, period, formType, active } = req.body;
+    const { title, surveyQuts, period, formType, active, sekerImg } = req.body;
     // the two schema Seker and qut that nasted in Seker
     const SekerLocal = {};
     // fill the Seker Object
     if (title) SekerLocal.title = title;
+    if (sekerImg) SekerLocal.sekerImg = sekerImg;
     if (formType) SekerLocal.formType = formType;
     if (active) SekerLocal.active = active;
     if (period) SekerLocal.period = period;
@@ -67,8 +63,14 @@ router.post(
     if (SekerLocal.surveyQuts) SekerLocal.surveyQuts = surveyQuts;
 
     ///crate qut mongoose obj and insert it to sekerLocal
-    for (let i = 0; i <= Array(SekerLocal.surveyQuts).length; i++) {
-      SekerLocal.surveyQuts[i].qut = new Qut(SekerLocal.surveyQuts[i].qut);
+    for (let i = 0; i < SekerLocal.surveyQuts.length; i++) {
+      try {
+        console.log('i: ' + i);
+        SekerLocal.surveyQuts[i].qut = new Qut(SekerLocal.surveyQuts[i].qut);
+      } catch (error) {
+        return res.json(error);
+      }
+
       await SekerLocal.surveyQuts[i].qut.save().catch(err => {
         res.status(404).json({ msg: err });
       });
@@ -76,7 +78,9 @@ router.post(
 
     ///crate Seker mongoose obj
     const seker = new Seker(SekerLocal);
-    await seker.save();
+    await seker.save().catch(err => {
+      return res.json(err);
+    });
 
     return res.json(seker);
   }
@@ -90,19 +94,21 @@ router.post('/:title', auth, async (req, res) => {
 
   //title is uniqe in every surves
   const title = req.params.title;
-  const { ...allField } = req.body;
+
+  const allField = {
+    surveyQuts: [...req.body]
+  };
 
   let localSurveyQuts = [];
 
   // find the user in db (user that answer)
-  let user = await User.findById(req.user.id).catch(err =>
-    res.status(500).json(err)
-  );
+  let user = await User.findById(req.user.id).catch(err => {
+    return res.status(500).json(err);
+  });
   // if there NOT Seker found
   if (!user) {
     return res.status(400).json({ msg: 'משתמש לא נמצא' });
   }
-  console.log(req.user.id);
 
   let profile = await Profile.findOne({
     user: req.user.id
@@ -116,81 +122,93 @@ router.post('/:title', auth, async (req, res) => {
     return res.status(400).json({ msg: 'פרופיל לא נמצא' });
   }
   ///find the spesfic Seker in db
-  let seker = await Seker.findOne({ title: title }).catch(err =>
-    res.status(500).json('Server Erorr-Seker')
-  );
+  let seker = await Seker.findOne({ title: title }).catch(err => {
+    return res.status(500).json('Server Erorr-Seker');
+  });
 
   // if there NOT Seker found
   if (!seker) {
     return res.status(400).json({ msg: 'סקר לא נמצא' });
   }
-
   //find if the user already fill this spesific Survey
-  const findUser = seker.userAnswer.filter(element => element == user.id);
-  if (findUser.length != 0) {
-    return res.json({ msg: 'This User already fill this Seker' });
-  }
+  // const findUser = seker.userAnswer.filter(element => element == user.id);
+  // if (findUser.length != 0) {
+  //   return res.json({ msg: 'This User already fill this Seker' });
+  // }
 
   // Get the Qustion id From the seker
-  const qustionsID = seker.surveyQuts.map(el => el.qut);
-  localSurveyQuts = allField.surveyQuts;
+
+  const qustionsID = await seker.surveyQuts.map(el => el.qut);
+
+  localSurveyQuts = [...allField.surveyQuts];
 
   // if there NOT qustion Obj in the survys
   if (!localSurveyQuts) {
     return res.status(400).json({ msg: 'אין שאלות בסקר' });
   }
 
-  //return res.json(localSurveyQuts[0].qut);
   // UPDATE the Seker db's
   localSurveyQuts.forEach(async (el, index, arr) => {
     //Create  Qut TYPE obj
 
     ///chackin if the qustios exist and save it for update the "choosing Amount field in DB"
-    const qustion = await Qut.findById(
-      qustionsID[index],
-      async (err, found) => {
-        if (err) {
-          return res.json(err);
-        }
-        if (!found) {
-          return res.json({ NOT_FOUND: el.qut });
-        }
-        // return res.json({ msg1: el });
+    const qustion = await Qut.findById(qustionsID[index], (err, found) => {
+      if (err) {
+        return res.status(500).json(err);
       }
-    ).catch(err => {
-      return res.json({ msg: el.qut });
+
+      if (!found) {
+        return res.status(500).json({ NOT_FOUND: el.qut });
+      }
+
+      // return res.json({ msg1: el });
+    }).catch(err => {
+      return res.status(500).json({ msg: 'SOME ERROR' });
     });
 
     //  return res.json(el);
     //find for which of the answers is choosen
-
-    choosenAnswer = el.qut.answers.filter(element => {
-      if (element.choosen == 'true') {
+    choosenAnswer = await el.qut.answers.filter(element => {
+      if (element.choosen == true) {
         return element;
       }
     });
 
     //find the index of the answer that choosen
-    let indexs = el.qut.answers.findIndex(element => element.choosen == 'true');
+
+    let indexs = await el.qut.answers.findIndex(
+      element => element.choosen == true
+    );
+    console.log('178');
+    console.log(qustion);
 
     //if some answer chacked
     if (choosenAnswer !== NOT_FOUND && indexs !== NOT_FOUND) {
       //find in DB the Qustion that need to be Updated
+      console.log('182');
       await Qut.find(qustion, async (err, foundQust) => {
         if (err) {
           return res
             .status(400)
             .json({ msg: 'Faild to Find qustion /n CONSOLE ERR: ' + err });
         }
+
         if (!foundQust || foundQust.length <= 0) {
           return res.status(404).json({ msg: 'Qustion NOT found' });
         }
-        console.log(indexs);
+        console.log('203');
 
         // UPDATE The Count of the answer that choosen
         foundQust[0].answers[indexs].choosenAmount++;
         foundQust[0].answers[indexs].choosen = false;
 
+        //Save the Answer with user
+        let answerOfUSer = {
+          Filluser: user,
+          fullAnswer: foundQust[0].answers[indexs].answer
+        };
+
+        await foundQust[0].uAnswer.push(answerOfUSer);
         await foundQust[0].save().catch(eror => {
           return res.status(500).json({ msg: eror });
         });
@@ -199,45 +217,58 @@ router.post('/:title', auth, async (req, res) => {
           .status(400)
           .json({ msg: 'Faild to Update qustion /n CONSOLE ERR: ' + err });
       });
-    } else return res.status(400).json(` ${qustion.index} שאלה מס לא נענתה .`);
+    } else {
+      console.log('=====NOT AMARICAN ==================');
+      console.log(qustion);
+      let answerOfUSer = {
+        Filluser: user,
+        fullAnswer: qustion.answers[indexs].answer
+      };
+      await qustion.uAnswer.push(answerOfUSer);
+      await qustion.save().catch(err => {
+        return res.json('NOT Amrican err');
+      });
+      /// TO-DO
+      /// Save the answer and the user for regular qustion (non amarican)
+      console.log('=====NOT AMARICAN ==================');
+    }
   });
+  console.log('221');
 
   //PUSH THE USER TO SEKER
   seker.userAnswer.push(user);
-  await seker
-    .save()
-    .catch(err =>
-      res.status(400).json({ msg: 'Faild to Save User /n CONSOLE ERR: ' + err })
-    );
+  await seker.save().catch(err => {
+    console.log('SOMTHINGWRONG');
 
+    return res
+      .status(400)
+      .json({ msg: 'Faild to Save User /n CONSOLE ERR: ' + err });
+  });
   //PUSH THE SEKER TO USER
+  console.log('233');
   user.sekers.push(seker);
-  await user
-    .save()
-    .catch(err =>
-      res
-        .status(400)
-        .json({ msg: 'Faild to Save Seker in The User /n CONSOLE ERR: ' + err })
-    );
-
+  await user.save().catch(err => {
+    return res
+      .status(400)
+      .json({ msg: 'Faild to Save Seker in The User /n CONSOLE ERR: ' + err });
+  });
+  console.log('240');
   //Push the seker to profile && push profile to the seker
   if (profile) {
     profile.sekers.push(seker);
-    await profile.save().catch(err =>
-      res.status(400).json({
+    await profile.save().catch(err => {
+      return res.status(400).json({
         msg: 'Faild to Save Seker in The Profile User /n CONSOLE ERR: ' + err
-      })
-    );
-
+      });
+    });
+    console.log('249');
     //PUSH THE PROFILE TO SEKER
     seker.profileAnswer.push(profile);
-    await seker
-      .save()
-      .catch(err =>
-        res
-          .status(400)
-          .json({ msg: 'Faild to Save User /n CONSOLE ERR: ' + err })
-      );
+    await seker.save().catch(err => {
+      return res
+        .status(400)
+        .json({ msg: 'Faild to Save User /n CONSOLE ERR: ' + err });
+    });
   }
 
   return res.json(seker);
@@ -247,9 +278,9 @@ router.post('/:title', auth, async (req, res) => {
 // @desc    get all data from
 // @access  Public
 router.get('/:title/data', async (req, res) => {
+  console.log('title sadfsdfsdfdsf');
   let surveyData = [];
   const title = req.params.title;
-  console.log(title);
 
   const surveyQuts = await Seker.findOne({ title: title.toString().trim() })
     .select('surveyQuts')
@@ -260,10 +291,16 @@ router.get('/:title/data', async (req, res) => {
   allQustionID.forEach(async (el, index, arr) => {
     await Qut.findById(
       el,
-      ['qust', 'isChoosenAnswer', 'answers.choosenAmount', 'answers.answer'],
+      [
+        'qust',
+        'isChoosenAnswer',
+        'answers.choosenAmount',
+        'answers.choosen',
+        'answers.answer'
+      ],
       (err, found) => {
         if (err) {
-          return res.json({ err: err });
+          return res.status(500).json({ err: err });
         }
         if (!found) {
           return res.json('qustions dont found');
@@ -308,5 +345,8 @@ router.get('/sekers', async (req, res) => {
   }
   return res.json(Allusers);
 });
-
+// const findUser = seker.userAnswer.filter(element => element == user.id);
+// if (findUser.length != 0) {
+//   return res.json({ msg: 'This User already fill this Seker' });
+// }
 module.exports = router;

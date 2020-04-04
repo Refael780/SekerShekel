@@ -6,6 +6,7 @@ const SekerSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  sekerImg: String,
   surveyQuts: [
     {
       qut: {
@@ -30,11 +31,11 @@ const SekerSchema = new mongoose.Schema({
   period: {
     start: {
       type: Date,
-      default: Date.now()
+      default: Date()
     },
     end: {
       type: String,
-      default: Date() + 360000000
+      default: new Date(Date.now() + 332442343)
     }
   },
   formType: String,

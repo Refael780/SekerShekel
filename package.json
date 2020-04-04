@@ -30,7 +30,8 @@
     "mongoose": "^5.8.3",
     "nodemailer": "^6.4.2",
     "nodemailer-sendgrid-transport": "^0.2.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "semantic-ui-css": "^2.4.1"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",
