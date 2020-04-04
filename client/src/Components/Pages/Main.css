@@ -28,6 +28,12 @@
   padding: 1px 1px 1px 1px;
   width: 100%;
 }
+.bigger {
+  transition: transform 0.2s;
+}
+.bigger:hover {
+  transform: scale(1.2);
+}
 
 @media (min-width: 900px) {
   .reg {

@@ -2,14 +2,15 @@ import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Button } from 'reactstrap';
 import Register from '../auth/Register';
-import CustomModal from '../layout/CustomModal';
-import CaruselSeker from '../layout/CarouselSeker';
-import NotFInsh from '../layout/NotFInsh';
+import CustomModal from '../UI/CustomModal';
+import CaruselSeker from '../UI/CarouselSeker/CarouselSeker';
+import NotFInsh from '../NotFinish/NotFInsh';
 import RefisterCustom from '../RegisterCustom/RegisterCustom';
 import './Main.css';
 import RegisterCustom from '../RegisterCustom/RegisterCustom';
 import FillSurvey from './Survey/FillSurvey';
 import { loadAllSurvey } from '../../action/survey';
+import Numbers from '../Numbers/Numbers';
 class Main extends Component {
   componentDidMount = () => {
     this.props.loadAllSurvey();
@@ -61,13 +62,13 @@ class Main extends Component {
             </Col>
           </Row>
           <Row>
-            <Col style={{ margin: '0.6rem' }}>
+            <Col className='bigger' style={{ margin: '0.6rem' }}>
               <NotFInsh index={0} />
             </Col>
-            <Col style={{ margin: '0.6rem' }}>
+            <Col className='bigger' style={{ margin: '0.6rem' }}>
               <NotFInsh index={1} />
             </Col>
-            <Col style={{ margin: '0.6rem' }}>
+            <Col className='bigger' style={{ margin: '0.6rem' }}>
               <NotFInsh index={2} />
             </Col>
           </Row>
@@ -96,6 +97,57 @@ class Main extends Component {
               >
                 הרשם לקבלת עדכונים
               </Button>
+            </Col>
+          </Row>
+          <Row
+            style={{
+              float: 'left',
+              margin: 0,
+              padding: 0
+            }}
+          >
+            <Col
+              className='bigger'
+              style={{ float: 'left', margin: 0, padding: 0 }}
+            >
+              <Numbers />
+              <hr />
+            </Col>
+            <Col
+              className='bigger'
+              style={{ float: 'left', margin: '0', padding: 0 }}
+            >
+              <Numbers />
+              <hr />
+            </Col>
+            <Col
+              className='bigger'
+              style={{ float: 'left', margin: '0', padding: 0 }}
+            >
+              <Numbers />
+              <hr />
+            </Col>
+            <Col
+              className='bigger'
+              style={{ float: 'left', margin: '0', padding: 0 }}
+            >
+              <Numbers />
+              <hr />
+            </Col>
+            <Col
+              className='bigger'
+              style={{ float: 'left', margin: '0', padding: 0 }}
+            >
+              <Numbers />
+              <hr />
+            </Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col>
+              <footer>
+                ><h1>פוטר</h1>
+              </footer>
             </Col>
           </Row>
         </Container>

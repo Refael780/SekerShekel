@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../action/alert';
 import { setModal } from '../../action/modal';
 import { regM } from '../../action/auth';
-import Alert from '../../Components/layout/Alert';
+import Alert from '../UI/Alert';
 
 import '../../App.css';
 
