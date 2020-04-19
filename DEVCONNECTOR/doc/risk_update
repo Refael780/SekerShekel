@@ -1,0 +1,12 @@
+1 minimist vulnerability found in package-lock.json 
+
+Remediation
+Upgrade minimist to version 1.2.3 or later. For example:
+
+"dependencies": {
+  "minimist": ">=1.2.3"
+}
+or…
+"devDependencies": {
+  "minimist": ">=1.2.3"
+}
