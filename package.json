@@ -1,5 +1,8 @@
 {
   "name": "sekershekel",
+  "engines": {
+    "node": "10.16.2"
+  },
   "version": "1.0.0",
   "description": "this is the fs api and client for sekerShekel's porject",
   "main": "server.js",
