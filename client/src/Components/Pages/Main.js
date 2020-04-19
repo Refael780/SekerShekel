@@ -11,11 +11,24 @@ import RegisterCustom from '../RegisterCustom/RegisterCustom';
 import FillSurvey from './Survey/FillSurvey';
 import { loadAllSurvey } from '../../action/survey';
 import Numbers from '../Numbers/Numbers';
+import RegForUpdate from '../RegForUpdate/RegForUpdate';
+import { Animated } from 'react-animated-css';
 class Main extends Component {
   componentDidMount = () => {
     this.props.loadAllSurvey();
   };
+  state = {
+    RegForUpdateToggel: false
+  };
+
   render() {
+    const prestRegForUpdateHandler = () => {
+      console.log('prestRegForUpdateHandler');
+
+      this.setState({
+        RegForUpdateToggel: !this.state.RegForUpdateToggel
+      });
+    };
     return (
       <Fragment>
         <Container fluid style={{ margin: '0.2rem' }}>
@@ -30,7 +43,7 @@ class Main extends Component {
             <Col className='info' md='12'>
               <Container
                 style={{
-                  fontSize: '1.4rem',
+                  fontSize: '1.7rem',
                   height: '15rem',
                   padding: ' 1rem',
                   textAlign: 'center'
@@ -57,7 +70,7 @@ class Main extends Component {
                 }}
               >
                 {' '}
-                <p style={{ fontSize: '4rem' }}>סקרים שאינם יסתיימו</p>
+                <p style={{ fontSize: '4rem' }}>סקרים שטרם יסתיימו</p>
               </div>
             </Col>
           </Row>
@@ -89,6 +102,7 @@ class Main extends Component {
                 הזמן סקר
               </Button>
               <Button
+                onClick={prestRegForUpdateHandler}
                 style={{ alignItems: 'center' }}
                 color='primary'
                 size='lg'
@@ -97,6 +111,9 @@ class Main extends Component {
               >
                 הרשם לקבלת עדכונים
               </Button>
+              <br />
+
+              {this.state.RegForUpdateToggel ? <RegForUpdate /> : <div></div>}
             </Col>
           </Row>
           <Row
@@ -107,6 +124,9 @@ class Main extends Component {
             }}
           >
             <Col
+              xs='12'
+              sm='6'
+              lg='3'
               className='bigger'
               style={{ float: 'left', margin: 0, padding: 0 }}
             >
@@ -114,6 +134,9 @@ class Main extends Component {
               <hr />
             </Col>
             <Col
+              xs='12'
+              sm='6'
+              lg='3'
               className='bigger'
               style={{ float: 'left', margin: '0', padding: 0 }}
             >
@@ -121,6 +144,9 @@ class Main extends Component {
               <hr />
             </Col>
             <Col
+              xs='12'
+              sm='6'
+              lg='3'
               className='bigger'
               style={{ float: 'left', margin: '0', padding: 0 }}
             >
@@ -128,13 +154,9 @@ class Main extends Component {
               <hr />
             </Col>
             <Col
-              className='bigger'
-              style={{ float: 'left', margin: '0', padding: 0 }}
-            >
-              <Numbers />
-              <hr />
-            </Col>
-            <Col
+              xs='12'
+              sm='6'
+              lg='3'
               className='bigger'
               style={{ float: 'left', margin: '0', padding: 0 }}
             >
@@ -143,13 +165,7 @@ class Main extends Component {
             </Col>
           </Row>
           <hr />
-          <Row>
-            <Col>
-              <footer>
-                ><h1>פוטר</h1>
-              </footer>
-            </Col>
-          </Row>
+          <br />
         </Container>
       </Fragment>
     );

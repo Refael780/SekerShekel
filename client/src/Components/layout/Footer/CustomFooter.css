@@ -1,0 +1,12 @@
+.cont {
+  background-color: #212a37;
+  opacity: 0.92;
+  color: #fff;
+  font-family: 'Amatic SC ,cursive';
+  float: left;
+  text-align: center;
+}
+.title {
+  font-weight: bolder;
+  text-decoration: underline #33b5e5 !important;
+}

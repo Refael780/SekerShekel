@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers, createSurvey } from 'redux';
 import alert from './alert';
 import modal from './modal';
 import auth from './auth';

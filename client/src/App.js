@@ -4,13 +4,16 @@ import Login from './Components/auth/Login';
 import PasswordPage from './Components/Pages/PassworPage';
 import Navbar from './Components/layout/Navbar';
 import Main from './Components/Pages/Main';
+import CreateSurveyMaster from './Components/Pages/CreateSurvey/CreateSurveyMaster';
 import UserDashbord from './Components/Pages/UserDashbord';
 import { Provider } from 'react-redux';
 import setAutToken from './Utils/setAutToken';
 import store from './store';
+import Footer from './Components/layout/Footer/CustomFooter';
 import { loadUser } from './action/auth';
 import ProfileForm from './Components/Pages/profile-form/ProfileForm';
 import FillSurvey from './Components/Pages/Survey/FillSurvey';
+import OrderSurvey from './Components/Pages/OrderSurvey/OrderSurvey';
 import './App.css';
 import auth from './reducers/auth';
 
@@ -48,8 +51,14 @@ const App = () => {
                 component={() => userOrNot()}
               ></Route>
               <Route exact path='/Login' component={Login}></Route>
-
               <Route exact path='/Create' component={ProfileForm}></Route>
+              <Route
+                exact
+                path='/CreateSurvey'
+                component={CreateSurveyMaster}
+              ></Route>
+
+              <Route exect path='/OrderSurvey' component={OrderSurvey}></Route>
               {/* <Route exact path='/dashboard' component={UserDashbord}></Route> */}
               <Route
                 exact
@@ -63,6 +72,7 @@ const App = () => {
               ></Route>
             </Switch>
           </section>
+          <Footer />
         </Fragment>
       </Router>
     </Provider>

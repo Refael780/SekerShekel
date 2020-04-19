@@ -8,6 +8,7 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/Refael780/SekerShekel#readme",
   "dependencies": {
+    "@material-ui/core": "^4.9.10",
     "bcryptjs": "^2.4.3",
     "config": "^3.2.4",
     "express": "^4.17.1",

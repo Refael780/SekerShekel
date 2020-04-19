@@ -63,10 +63,16 @@ const Navbar = prop => {
             <a href='#3'>Developers</a>
           </li>
           <li>
-            <Link to='/register'>סקרים שמלאתי</Link>
+            <Link to='/register'>לא זמין סקרים שמלאתי</Link>
           </li>
           <li>
-            <Link to='/register'> הזמן סקר</Link>
+            <Link to='/CreateSurvey'>צור סקר(יעבוד לפי הרשאה)</Link>
+          </li>
+          <li>
+            <Link to='/OrderSurvey'> הזמן סקר</Link>
+          </li>
+          <li>
+            <Link to='/Create'>בנה פרופיל(בבניה)</Link>
           </li>
           <li>
             <a onClick={e => logOut(e)}>התנתקות</a>

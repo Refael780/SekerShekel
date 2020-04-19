@@ -1,0 +1,16 @@
+.borderX {
+  border: 1px solid #339bff;
+  border-radius: 3%;
+  color: #339bff;
+  padding: 1rem;
+  font-weight: bolder;
+}
+.borderX ::placeholder {
+  color: #339bff;
+
+  padding: 1rem;
+  font-weight: bolder;
+}
+.borderX::-webkit-input-placeholder {
+  color: #339bff;
+}
