@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Button } from 'reactstrap';
 import OpenQustion from './QustionTypes/OpenQustion/OpenQustion';
+import AmericanQustion from './QustionTypes/AmericanQustion/AmricanQustion';
 export class BuildSurvey extends Component {
   state = {
     isOpen: false,
@@ -20,6 +21,13 @@ export class BuildSurvey extends Component {
         ...this.state,
         isAskQustion: false,
         nextQustionType: <OpenQustion />
+      });
+    };
+    const AmericanQustHandler = () => {
+      this.setState({
+        ...this.state,
+        isAskQustion: false,
+        nextQustionType: <AmericanQustion />
       });
     };
 
@@ -72,6 +80,7 @@ export class BuildSurvey extends Component {
                 size='lg'
                 color='primary'
                 block
+                onClick={AmericanQustHandler}
               >
                 אמריקאית
               </Button>

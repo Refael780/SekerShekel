@@ -1,0 +1,12 @@
+.inputOption {
+  padding: 0;
+}
+.cont {
+  display: block;
+}
+input {
+  padding: 13.5px 66px;
+}
+.MuiOutlinedInput-input {
+  padding: 13.5px 66px;
+}
