@@ -39,7 +39,7 @@ router.get('/:title', async (req, res) => {
   res.json(seker);
 });
 
-// @route   POST api/sekers
+// @route   POST api/seker
 // @desc    Create new Survey
 // @access  Public
 router.post(
@@ -50,17 +50,33 @@ router.post(
       .isEmpty()
   ],
   async (req, res) => {
-    const { title, surveyQuts, period, formType, active, sekerImg } = req.body;
+    console.log('ENTER TO SEKER');
+    console.log(req.body);
+
+    const { title, period, formType, active, sekerImg } = req.body;
+    const surveyQuts = req.body.surveyQuts;
     // the two schema Seker and qut that nasted in Seker
     const SekerLocal = {};
     // fill the Seker Object
     if (title) SekerLocal.title = title;
+    console.log('TITLE: ' + SekerLocal.title);
+
     if (sekerImg) SekerLocal.sekerImg = sekerImg;
+    console.log('sekerImg: ' + SekerLocal.sekerImg);
+
     if (formType) SekerLocal.formType = formType;
     if (active) SekerLocal.active = active;
     if (period) SekerLocal.period = period;
     SekerLocal.surveyQuts = [];
-    if (SekerLocal.surveyQuts) SekerLocal.surveyQuts = surveyQuts;
+    if (surveyQuts) SekerLocal.surveyQuts = [...surveyQuts];
+    console.log('=============SekerLocal================');
+
+    console.log(SekerLocal);
+    console.log('=======================================');
+    console.log('=============SekerLocal.surveyQuts================');
+
+    console.log(SekerLocal.surveyQuts);
+    console.log('=======================================');
 
     ///crate qut mongoose obj and insert it to sekerLocal
     for (let i = 0; i < SekerLocal.surveyQuts.length; i++) {
@@ -279,6 +295,7 @@ router.post('/:title', auth, async (req, res) => {
 // @access  Public
 router.get('/:title/data', async (req, res) => {
   console.log('title sadfsdfsdfdsf');
+
   let surveyData = [];
   const title = req.params.title;
 

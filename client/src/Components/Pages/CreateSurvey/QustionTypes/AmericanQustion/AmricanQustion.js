@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { connect } from 'react-redux';
+import {
+  confirmQustionToSurvey,
+  promotQustion,
+  promotPage
+} from '../../../../../action/createSurvey';
 import {
   Container,
   Button,
@@ -14,71 +19,99 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+import OpenQustion from '../OpenQustion/OpenQustion';
 
 import './AmricanQustion.css';
+import { element } from 'prop-types';
 class AmricanQustion extends Component {
   state = {
     answer: '',
     indexAnswer: 0,
-    allAnswer: []
+    allAnswer: [],
+    toNextQustion: false
   };
-  render() {
-    const Styles = makeStyles(theme => ({
-      root: {
-        '& > *': {
-          margin: theme.spacing(1),
-          width: '80%',
-          direction: 'rtl',
-          marginRight: '9.2rem'
-        }
+  Styles = makeStyles(theme => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+        width: '80%',
+        direction: 'rtl',
+        marginRight: '9.2rem'
       }
-    }));
-    const onChangeHandler = e => {
-      this.setState({ answer: e.target.value });
+    }
+  }));
+  onChangeHandler = e => {
+    this.setState({ answer: e.target.value });
+  };
+  onApproveHandler = e => {
+    e.preventDefault();
+    console.log(e.key);
+
+    const ansindex = {
+      answer: this.state.answer,
+      index: this.state.indexAnswer + 1
     };
-    const onApproveHandler = e => {
-      e.preventDefault();
-      const ansindex = {
-        answer: this.state.answer,
-        index: this.state.indexAnswer + 1
-      };
-      if (this.state.answer !== '') {
-        const tempAllanswer = this.state.allAnswer;
-        tempAllanswer.push(ansindex);
-        this.setState({
-          allAnswer: tempAllanswer,
-          indexAnswer: this.state.indexAnswer + 1,
-          answer: ''
-        });
-      }
-    };
-
-    const removeHandler = index => {
-      console.log(index);
-
-      let tempAllanswer = this.state.allAnswer;
-
-      tempAllanswer = tempAllanswer.filter(ans => {
-        console.log('ANS:  ' + ans);
-        console.log('ANS.INDEX:  ' + ans.index);
-        console.log('INDEX:  ' + index);
-
-        return ans.index !== index;
-      });
-      console.log(tempAllanswer);
-
+    if (this.state.answer !== '') {
+      const tempAllanswer = this.state.allAnswer;
+      tempAllanswer.push(ansindex);
       this.setState({
         allAnswer: tempAllanswer,
-        indexAnswer: this.state.indexAnswer - 1
+        indexAnswer: this.state.indexAnswer + 1,
+        answer: ''
       });
-    };
+    }
+  };
+  PressEnterHandler = e => {
+    if (e.key === 'Enter') {
+      this.onApproveHandler(e);
+    }
+  };
 
-    const classes = Styles;
+  confirmHanler = () => {
+    let answers = [...this.state.allAnswer];
+    answers = answers.map(element => {
+      return {
+        answer: element.answer,
+        optionAnswerNumber: element.index,
+        choosen: false
+      };
+    });
+
+    this.props.confirmQustionToSurvey(
+      this.props.qustion,
+      true,
+      this.props.qustionIndex,
+      answers
+    );
+    this.props.promotPage(this.props.pageNumber);
+    this.props.promotQustion(this.props.qustionIndex);
+    this.setState({
+      ...this.state,
+      toNextQustion: true
+    });
+  };
+
+  removeHandler = index => {
+    console.log(index);
+
+    let tempAllanswer = this.state.allAnswer;
+
+    tempAllanswer = tempAllanswer.filter(ans => {
+      return ans.index !== index;
+    });
+
+    this.setState({
+      allAnswer: tempAllanswer,
+      indexAnswer: this.state.indexAnswer - 1
+    });
+  };
+  render() {
+    const classes = this.Styles;
 
     //Button that going apper only if more than 2 Answer
     const finshButtun =
       this.state.indexAnswer > 1 ? (
-        <Button block color='success'>
+        <Button onClick={this.confirmHanler} block color='success'>
           סיום
         </Button>
       ) : null;
@@ -97,7 +130,7 @@ class AmricanQustion extends Component {
               }}
             >
               <Button
-                onClick={index => removeHandler(ans.index)}
+                onClick={index => this.removeHandler(ans.index)}
                 color='danger'
                 style={{ marginLeft: '0.5rem', float: 'right' }}
               >
@@ -109,7 +142,10 @@ class AmricanQustion extends Component {
         </div>
       );
     });
-    return (
+
+    return this.state.toNextQustion ? (
+      <OpenQustion />
+    ) : (
       <div>
         <div dir='rtl'>
           <p
@@ -124,7 +160,11 @@ class AmricanQustion extends Component {
           <form className={classes.root} noValidate autoComplete='off'>
             <Row style={{ float: 'right' }}>
               <Col className='inputOption' xs='3'>
-                <Button onClick={onApproveHandler} size='lg' color='primary'>
+                <Button
+                  onClick={this.onApproveHandler}
+                  size='lg'
+                  color='primary'
+                >
                   הוסף
                 </Button>{' '}
               </Col>
@@ -139,7 +179,8 @@ class AmricanQustion extends Component {
                   <Input
                     className={classes.marginRight}
                     id='input-with-icon-adornment'
-                    onChange={onChangeHandler}
+                    onChange={this.onChangeHandler}
+                    onKeyDown={this.PressEnterHandler}
                     value={this.state.answer}
                   />
                 </FormControl>
@@ -157,5 +198,14 @@ class AmricanQustion extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  pageNumber: state.createSurvey.currentPage.page,
+  qustionIndex: state.createSurvey.currentPage.qustionNumber,
+  qustion: state.createSurvey.currentPage.qut
+});
 
-export default AmricanQustion;
+export default connect(mapStateToProps, {
+  promotQustion,
+  promotPage,
+  confirmQustionToSurvey
+})(AmricanQustion);

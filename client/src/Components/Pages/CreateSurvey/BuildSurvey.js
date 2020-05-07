@@ -3,6 +3,12 @@ import { connect } from 'react-redux';
 import { Container, Row, Col, Button } from 'reactstrap';
 import OpenQustion from './QustionTypes/OpenQustion/OpenQustion';
 import AmericanQustion from './QustionTypes/AmericanQustion/AmricanQustion';
+import {
+  promotQustion,
+  promotPage,
+  confirmQustionToSurvey
+} from '../../../action/createSurvey';
+
 export class BuildSurvey extends Component {
   state = {
     isOpen: false,
@@ -11,17 +17,25 @@ export class BuildSurvey extends Component {
   };
 
   render() {
-    let CurrentPage;
     const nextPage = () => {
       // ** if page 1 is passOnce fowrd arrow is apper
     };
     const prevPage = () => {};
+
     const openQustHandler = () => {
       this.setState({
         ...this.state,
         isAskQustion: false,
-        nextQustionType: <OpenQustion />
+        nextQustionType: <OpenQustion /> ///SAVE THE QUSTION IN STATE AND RETURN TO NEXT QUSTION
       });
+      this.props.promotPage(this.props.pageNumber);
+
+      this.props.confirmQustionToSurvey(
+        this.props.qustion,
+        false,
+        this.props.qustionIndex
+      );
+      this.props.promotQustion(this.props.qustionIndex);
     };
     const AmericanQustHandler = () => {
       this.setState({
@@ -48,8 +62,9 @@ export class BuildSurvey extends Component {
                   textAlign: 'center'
                 }}
               >
-                שאלה מס 1
+                {this.props.qustionIndex} שאלה מס
               </h1>
+              <span>{this.props.qustion}</span>
             </Col>
           </Row>
           <br />
@@ -63,6 +78,7 @@ export class BuildSurvey extends Component {
                   marginBottom: '2rem'
                 }}
               >
+                <br />
                 איזה סוג שאלה תבחר
               </p>
             </Col>
@@ -112,8 +128,14 @@ export class BuildSurvey extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  pageNumber: state.createSurvey.currentPage.page,
+  qustionIndex: state.createSurvey.currentPage.qustionNumber,
+  qustion: state.createSurvey.currentPage.qut
+});
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(BuildSurvey);
+export default connect(mapStateToProps, {
+  promotQustion,
+  promotPage,
+  confirmQustionToSurvey
+})(BuildSurvey);

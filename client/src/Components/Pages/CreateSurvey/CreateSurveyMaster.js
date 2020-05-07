@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, FormGroup, Container, Row, Col, Button } from 'reactstrap';
 import './CreateSurveyMaster.css';
 import BuildSurvey from './BuildSurvey';
+import OpenQustion from './QustionTypes/OpenQustion/OpenQustion';
 
 class CreateSurveyMaster extends Component {
   state = {
@@ -12,7 +13,6 @@ class CreateSurveyMaster extends Component {
     this.setState({
       startToggle: false
     });
-    console.log(this.state.startToggle);
   };
   render() {
     return (
@@ -50,7 +50,7 @@ class CreateSurveyMaster extends Component {
                     textAlign: 'center'
                   }}
                 >
-                  <BuildSurvey />
+                  <OpenQustion />
                 </div>
               )}
             </Col>
