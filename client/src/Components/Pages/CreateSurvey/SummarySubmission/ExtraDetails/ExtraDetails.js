@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Button, Row, Col } from 'reactstrap';
+import { Button } from 'reactstrap';
 import BuildSurvey from '../../BuildSurvey';
 import {
   addQustionToSurvey,
@@ -13,7 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker
 } from '@material-ui/pickers';
 
@@ -40,14 +39,8 @@ const ExtraDetails = props => {
   const handleDateChange = date => {
     setSelectedDate(date);
     //show clock
-
-    console.log(selectedDate);
   };
 
-  const { qustion } = formData;
-  const onPressEnter = e => {
-    if (e.key == 'Enter') onsubmitHandler(e);
-  };
   const onChangeHandler = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -71,15 +64,6 @@ const ExtraDetails = props => {
       selectedDate
     );
     console.log('whats UP');
-  };
-  const FinishClickHandler = e => {
-    e.preventDefault();
-
-    setFormData({
-      ...formData,
-      moveToNextStep: true,
-      nextStep: <ExtraDetails />
-    });
   };
 
   const classes = useStyles();

@@ -2,17 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { loadSurveyToFill, fillSurveyCom } from '../../../action/survey';
 import Loading from '../../layout/Loading/Loading';
-import {
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Col,
-  Row,
-  Container,
-  Button
-} from 'reactstrap';
+import { Form, FormGroup, Label, Input, Container, Button } from 'reactstrap';
 
 class FillSurvey extends Component {
   state = {
@@ -21,8 +11,6 @@ class FillSurvey extends Component {
   };
 
   componentDidMount = async () => {
-    const title = 's7';
-
     await this.props.loadSurveyToFill(this.props.match.params.title.toString());
     console.log(this.props.match.params);
 
@@ -45,20 +33,9 @@ class FillSurvey extends Component {
       newSurvey: [...this.props.survey],
       survey: [...surveyQuts]
     });
-
-    const ww = this.props.survey.map(element => {
-      return element.isChoosenAnswer
-        ? element.answers.map(ans => {
-            return ans.answer;
-          })
-        : null;
-    });
-    console.log(ww);
   };
   onChengeHandler = e => {
     let index = this.state.survey.findIndex(x => x.qut.qust == e.target.name);
-    console.log(this.state.survey);
-    console.log(e.target.name);
 
     let theChoosenIndex = this.state.survey[index].qut.answers.findIndex(
       x => x.answer === e.target.value
@@ -94,7 +71,6 @@ class FillSurvey extends Component {
     );
   };
   render() {
-    const s = this.props.survey;
     const customForm = this.props.loading ? (
       <Loading></Loading>
     ) : (

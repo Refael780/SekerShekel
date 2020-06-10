@@ -17,11 +17,6 @@ export class BuildSurvey extends Component {
   };
 
   render() {
-    const nextPage = () => {
-      // ** if page 1 is passOnce fowrd arrow is apper
-    };
-    const prevPage = () => {};
-
     const openQustHandler = () => {
       this.setState({
         ...this.state,

@@ -1,18 +1,14 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Button } from 'reactstrap';
-import Register from '../auth/Register';
 import CustomModal from '../UI/CustomModal';
 import CaruselSeker from '../UI/CarouselSeker/CarouselSeker';
 import NotFInsh from '../NotFinish/NotFInsh';
-import RefisterCustom from '../RegisterCustom/RegisterCustom';
 import './Main.css';
 import RegisterCustom from '../RegisterCustom/RegisterCustom';
-import FillSurvey from './Survey/FillSurvey';
 import { loadAllSurvey } from '../../action/survey';
 import Numbers from '../Numbers/Numbers';
 import RegForUpdate from '../RegForUpdate/RegForUpdate';
-import { Animated } from 'react-animated-css';
 import FadeInSection from '../UI/FadeInSection/FadeInSection';
 class Main extends Component {
   componentDidMount = () => {

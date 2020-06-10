@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Loading from '../layout/Loading/Loading';
 import Countdown from 'react-countdown';
 import { Button } from 'reactstrap';
-import FillSurvy from '../Pages/Survey/FillSurvey';
 import { Link } from 'react-router-dom';
 //import { Card, Icon, Image } from 'semantic-ui-react';
 const Expierd = () => <div>Expierd</div>;

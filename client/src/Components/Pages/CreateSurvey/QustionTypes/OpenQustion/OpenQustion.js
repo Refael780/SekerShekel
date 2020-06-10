@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Button, Row, Col } from 'reactstrap';
+import { Button } from 'reactstrap';
 import BuildSurvey from '../../BuildSurvey';
 import ExtraDetails from '../../SummarySubmission/ExtraDetails/ExtraDetails';
 import { addQustionToSurvey } from '../../../../../action/createSurvey';
@@ -24,7 +24,6 @@ const OpenQustion = props => {
     nextStep: null
   });
 
-  const { qustion } = formData;
   const onPressEnter = e => {
     if (e.key == 'Enter') onsubmitHandler(e);
   };

@@ -15,8 +15,7 @@ import ProfileForm from './Components/Pages/profile-form/ProfileForm';
 import FillSurvey from './Components/Pages/Survey/FillSurvey';
 import OrderSurvey from './Components/Pages/OrderSurvey/OrderSurvey';
 import './App.css';
-import auth from './reducers/auth';
-
+import Navs from './Components/layout/Navs';
 if (localStorage.token) {
   setAutToken(localStorage.token);
 }
@@ -41,7 +40,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Fragment>
-          <Navbar />
+          <Navs />
           <section className='container'>
             <Switch>
               <Route exact path='/' component={Main}></Route>
@@ -51,7 +50,6 @@ const App = () => {
                 component={() => userOrNot()}
               ></Route>
               <Route exact path='/Login' component={Login}></Route>
-              <Route exact path='/Create' component={ProfileForm}></Route>
               <Route
                 exact
                 path='/CreateSurvey'
@@ -72,6 +70,9 @@ const App = () => {
               ></Route>
             </Switch>
           </section>
+          <Switch>
+            <Route exact path='/Create' component={ProfileForm}></Route>
+          </Switch>
           <Footer />
         </Fragment>
       </Router>

@@ -18,7 +18,11 @@ const Navbar = prop => {
       };
       console.log(User);
       console.log(User.name);
-    } catch (error) {}
+    } catch (error) {
+      console.log('Is hereS');
+
+      prop.isAut = false;
+    }
   }
   const logOut = e => {
     try {
@@ -78,7 +82,7 @@ const Navbar = prop => {
             <a onClick={e => logOut(e)}>התנתקות</a>
           </li>
           <li>
-            <a href='/'>{user.name !== null ? user.name : ''}</a>
+            <a href='/'>{!user.name || user.name === null ? '' : user.name}</a>
           </li>
         </ul>
       </nav>

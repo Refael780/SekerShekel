@@ -6,23 +6,13 @@ import {
   promotQustion,
   promotPage
 } from '../../../../../action/createSurvey';
-import {
-  Container,
-  Button,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem
-} from 'reactstrap';
+import { Button, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
 import OpenQustion from '../OpenQustion/OpenQustion';
 
 import './AmricanQustion.css';
-import { element } from 'prop-types';
 class AmricanQustion extends Component {
   state = {
     answer: '',

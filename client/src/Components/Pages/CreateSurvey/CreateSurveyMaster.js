@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, FormGroup, Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import './CreateSurveyMaster.css';
-import BuildSurvey from './BuildSurvey';
 import OpenQustion from './QustionTypes/OpenQustion/OpenQustion';
 
 class CreateSurveyMaster extends Component {

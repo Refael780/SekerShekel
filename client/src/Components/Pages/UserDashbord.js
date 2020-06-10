@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { loadMyProfile } from '../../action/profile';
-import axios from 'axios';
-import Axios from 'axios';
+
 import Loading from '../layout/Loading/Loading';
 class UserDashbord extends Component {
   componentDidMount = async () => {

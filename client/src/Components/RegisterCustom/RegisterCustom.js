@@ -1,5 +1,4 @@
 import React, { useState, Fragment } from 'react';
-import { Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { setAlert } from '../../action/alert';
 import { setModal } from '../../action/modal';

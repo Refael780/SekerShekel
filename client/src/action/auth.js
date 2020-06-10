@@ -16,9 +16,9 @@ import {
 export const loadUser = () => async dispatch => {
   console.log('action: TRY LOAD USER');
 
-  if (localStorage.token) {
-    setAutToken(localStorage.token);
-  }
+  // if (localStorage.token) {
+  //   setAutToken(localStorage.token);
+  // }
   try {
     const res = await axios.get('/api/auth');
     dispatch({
@@ -60,9 +60,15 @@ export const loginUser = (email, password) => async dispatch => {
       payload: res.data
     });
 
-    await dispatch(loadUser());
-  } catch (error) {
-    const errors = error.response.data.errors;
+    dispatch(loadUser());
+  } catch (err) {
+    console.log('*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*');
+
+    console.log(err.response);
+    console.log(err);
+    console.log('*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*');
+
+    const errors = err.response.data.errors;
 
     if (errors) {
       errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));

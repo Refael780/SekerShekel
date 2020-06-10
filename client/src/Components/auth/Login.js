@@ -1,46 +1,10 @@
-import React, { useState } from 'react';
-import { loginUser } from '../../action/auth';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
+
 import './Login.css';
 import '../../App.css';
 import CustomLogin from '.././RegisterCustom/CustomLogin';
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText
-} from 'reactstrap';
 
 const Login = props => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-
-  const { email, password } = formData;
-  const onChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const loginHandler = async e => {
-    e.preventDefault();
-    ///if some of the input is wrong we alert to user
-    ///TO-DO
-    try {
-      console.log('CLICK ON LOGIN SEND' + email + password);
-
-      props.loginUser({ email, password });
-    } catch (error) {
-      console.log(error);
-      //alert
-    }
-  };
-
   return (
     <CustomLogin></CustomLogin>
     // {/* <Container fluid> <div dir='rtl' className='cont'>
